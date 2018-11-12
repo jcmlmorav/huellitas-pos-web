@@ -1,0 +1,2 @@
+# Huellitas POS Frontend
+
