@@ -19,7 +19,10 @@ class ProductInfo extends Component {
 
     this.state = {
       barcode: '',
-      isOpen: false
+      description: '',
+      isOpen: false,
+      price: 0,
+      quantity: 0
     };
   }
 
@@ -31,11 +34,26 @@ class ProductInfo extends Component {
     return state;
   }
 
+  handleDescription = (e) => {
+    this.setState({ description: e.target.value });
+  }
+
+  handlePrice = (e) => {
+    this.setState({ price: e.target.value });
+  }
+
+  handleQuantity = (e) => {
+    this.setState({ quantity: e.target.value });
+  }
+
   handleCancel = () => {
     const { toggle } = this.props;
 
     this.setState({
-      barcode: ''
+      barcode: '',
+      description: '',
+      price: 0,
+      quantity: 0
     });
 
     toggle();
@@ -43,6 +61,7 @@ class ProductInfo extends Component {
 
   render() {
     const { barcode } = this.props;
+    const { description, quantity, price } = this.state;
 
     return (
       <Modal isOpen={this.state.isOpen}>
@@ -51,21 +70,21 @@ class ProductInfo extends Component {
           <Form>
             <FormGroup>
               <Label for="barcode">Código</Label>
-              <Input disabled id="barcode" name="barcode" type="text" value={ barcode } />
+              <Input disabled id="barcode" onChange={() => {}} name="barcode" type="text" value={ barcode } />
             </FormGroup>
             <FormGroup>
               <Label for="description">Descripción</Label>
-              <Input id="description" maxLength="40" name="description" type="text" />
+              <Input onChange={ this.handleDescription } id="description" maxLength="40" name="description" type="text" value={ description } />
             </FormGroup>
             <FormGroup>
               <Label for="quantity">Cantidad</Label>
-              <Input id="quantity" name="quantity" type="number" step="1" />
+              <Input onChange={ this.handleQuantity } id="quantity" name="quantity" type="number" step="1" value={ quantity } />
             </FormGroup>
             <FormGroup>
               <Label for="price">Precio</Label>
               <InputGroup>
               <InputGroupAddon addonType="prepend">$</InputGroupAddon>
-              <Input id="price" name="price" type="number" step="500" />
+              <Input onChange={ this.handlePrice } id="price" name="price" type="number" step="500" value={ price }/>
             </InputGroup>
             </FormGroup>
           </Form>

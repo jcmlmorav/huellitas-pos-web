@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
 import { Alert, Col, Table, Row } from 'reactstrap';
+import PRODUCTS from '../../constants/products.mock';
 
-class ProductsList extends Component {
+class BillingProducts extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { products: [] };
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    const { products } = props;
-
-    state.products = products;
-
-    return state;
+    this.state = { products: PRODUCTS };
   }
 
   render() {
@@ -24,13 +17,14 @@ class ProductsList extends Component {
       component = (
         <Row>
           <Col>
-            <Table>
+            <Table bordered>
               <thead>
                 <tr>
                   <th>Código de barras</th>
                   <th>Descripción</th>
                   <th>Cantidad</th>
-                  <th>Precio</th>
+                  <th>Precio unitario</th>
+                  <th>Precio total</th>
                 </tr>
               </thead>
               <tbody>
@@ -40,6 +34,7 @@ class ProductsList extends Component {
                     <td>{ product.description }</td>
                     <td>{ product.quantity }</td>
                     <td>$ { product.price }</td>
+                    <td>$ { product.quantity * product.price }</td>
                   </tr>
                 )) }
               </tbody>
@@ -50,8 +45,8 @@ class ProductsList extends Component {
     } else {
       component = (
         <Alert color="primary">
-          No se han agregado productos al inventario. <br />
-          Para agregar un producto escanee el código de barras o ingrese el código en el campo buscar, luego complete la información.
+          No se han registrado productos para esta compra. <br />
+          Para agregar un producto escanee el código de barras o ingrese el código en el campo buscar.
         </Alert>
       );
     }
@@ -64,4 +59,4 @@ class ProductsList extends Component {
   }
 }
 
-export default ProductsList;
+export default BillingProducts;

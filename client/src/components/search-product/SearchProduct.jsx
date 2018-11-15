@@ -18,9 +18,15 @@ class SearchProduct extends Component {
     this.state = {
       alert: null,
       productInfoIsOpen: false,
-      productValue: ''
+      product: {
+        barcode: '',
+        description: '',
+        price: 0,
+        quantity: 0
+      }
     };
   }
+  
   componentDidMount() {
     document.getElementById('searchProduct').focus();
   }
@@ -30,13 +36,19 @@ class SearchProduct extends Component {
       this.setState({ alert: null });
     }
 
-    this.setState({ productValue: e.target.value });
+    const { product } = this.state;
+    
+    product.barcode = e.target.value;
+
+    this.setState({ product });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
 
-    if( !this.state.productValue ) {
+    const { product } = this.state;
+
+    if( !product.barcode ) {
       let { alert } = this.state;
 
       alert = <Alert color='danger'>No se ha escrito nada en el campo de búsqueda de productos</Alert>;
@@ -59,7 +71,7 @@ class SearchProduct extends Component {
 
   render() {
     const { titleText } = this.props;
-    const { alert, productInfoIsOpen, productValue } = this.state;
+    const { alert, productInfoIsOpen, product } = this.state;
 
     return (
       <Row>
@@ -70,7 +82,7 @@ class SearchProduct extends Component {
               <Label for="searchProduct">{ titleText }</Label>
               <Row>
                 <Col lg="10">
-                  <Input id="searchProduct" name="searchProduct" onChange={ this.handleProductValue } type="text" tabIndex="1" value={ productValue } />
+                  <Input id="searchProduct" name="searchProduct" onChange={ this.handleProductValue } type="text" tabIndex="1" value={ product.barcode } />
                 </Col>
                 <Col lg="2">
                   <Button color="primary">Buscar</Button>
@@ -78,7 +90,7 @@ class SearchProduct extends Component {
               </Row>
             </FormGroup>
           </Form>
-          <ProductInfo isOpen={ productInfoIsOpen } toggle={ this.toggleProductInfo } barcode={ productValue } />
+          <ProductInfo isOpen={ productInfoIsOpen } toggle={ this.toggleProductInfo } barcode={ product.barcode } />
         </Col>
       </Row>
     )

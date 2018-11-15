@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, NavLink, Route } from "react-router-dom";
-import { Billing, Clients, Inventory, Finances } from './views';
+import { Billing, Customers, Inventory, Finances } from './views';
 import { Container, Row, Col } from 'reactstrap';
 import './App.scss';
 import {
@@ -37,7 +37,7 @@ class App extends Component {
             <Row>
               <Col>
                 <Route path="/" exact component={ Billing } />
-                <Route path="/clientes/" component={ Clients } />
+                <Route path="/clientes/" component={ Customers } />
                 <Route path="/inventario/" component={ Inventory } />
                 <Route path="/finanzas/" component={ Finances } />
               </Col>

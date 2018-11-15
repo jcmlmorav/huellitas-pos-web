@@ -10,6 +10,78 @@ const PRODUCTS = [
     description: 'Descripción del producto 2',
     quantity: 5,
     price: 10000
+  },
+  {
+    barcode: '0000000002',
+    description: 'Descripción del producto 2',
+    quantity: 5,
+    price: 10000
+  },
+  {
+    barcode: '0000000002',
+    description: 'Descripción del producto 2',
+    quantity: 5,
+    price: 10000
+  },
+  {
+    barcode: '0000000002',
+    description: 'Descripción del producto 2',
+    quantity: 5,
+    price: 10000
+  },
+  {
+    barcode: '0000000002',
+    description: 'Descripción del producto 2',
+    quantity: 5,
+    price: 10000
+  },
+  {
+    barcode: '0000000002',
+    description: 'Descripción del producto 2',
+    quantity: 5,
+    price: 10000
+  },
+  {
+    barcode: '0000000002',
+    description: 'Descripción del producto 2',
+    quantity: 5,
+    price: 10000
+  },
+  {
+    barcode: '0000000002',
+    description: 'Descripción del producto 2',
+    quantity: 5,
+    price: 10000
+  },
+  {
+    barcode: '0000000002',
+    description: 'Descripción del producto 2',
+    quantity: 5,
+    price: 10000
+  },
+  {
+    barcode: '0000000002',
+    description: 'Descripción del producto 2',
+    quantity: 5,
+    price: 10000
+  },
+  {
+    barcode: '0000000002',
+    description: 'Descripción del producto 2',
+    quantity: 5,
+    price: 10000
+  },
+  {
+    barcode: '0000000002',
+    description: 'Descripción del producto 2',
+    quantity: 5,
+    price: 10000
+  },
+  {
+    barcode: '0000000002',
+    description: 'Descripción del producto 2',
+    quantity: 5,
+    price: 10000
   }
 ];
 
