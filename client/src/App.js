@@ -16,19 +16,19 @@ class App extends Component {
       <Router>
         <div>
           <Navbar color="light" light expand="md">
-            <NavbarBrand href="/">HUELLITAS</NavbarBrand>
+            <NavbarBrand href="/" tabIndex="-1">HUELLITAS</NavbarBrand>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink className="menu__item" to="/">Facturación</NavLink>
+                <NavLink className="menu__item" tabIndex="-1" to="/">Facturación</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className="menu__item" to="/clientes">Clientes</NavLink>
+                <NavLink className="menu__item" tabIndex="-1" to="/clientes">Clientes</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className="menu__item" to="/inventario">Inventario</NavLink>
+                <NavLink className="menu__item" tabIndex="-1" to="/inventario">Inventario</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className="menu__item" to="/finanzas">Finanzas</NavLink>
+                <NavLink className="menu__item" tabIndex="-1" to="/finanzas">Finanzas</NavLink>
               </NavItem>
             </Nav>
           </Navbar>

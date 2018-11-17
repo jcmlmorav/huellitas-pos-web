@@ -1,9 +1,22 @@
 import React, { Component } from 'react';
-import { BillingProducts, BillingStatus, SearchProduct } from '../../components';
+import { BillingProducts, BillingStatus, CheckoutBilling, SearchProduct } from '../../components';
 import { Button, Col, Row } from 'reactstrap';
+import './styles.scss';
 
 class Billing extends Component {
+  constructor() {
+    super();
+
+    this.state = { checkoutBillingIsOpen: false }
+  }
+
+  toggleCheckoutBilling = () => {
+    this.setState(prevState => ({ checkoutBillingIsOpen: !prevState.checkoutBillingIsOpen }));
+  }
+
   render() {
+    const { checkoutBillingIsOpen } = this.state;
+
     return (
       <div>
         <h1 className="text-center">Facturación</h1>
@@ -13,11 +26,16 @@ class Billing extends Component {
             <BillingProducts />
           </Col>
           <Col lg="3">
-            <BillingStatus />
-            <hr />
-            <Button color="primary">Finalizar compra</Button>
+            <div class="stickyElement">
+              <BillingStatus />
+              <div className="billingButtons">
+                <Button color="primary" onClick={ this.toggleCheckoutBilling } tabIndex="-1">Finalizar compra</Button>
+                <Button color="secondary" outline tabIndex="-1">Cancelar compra</Button>
+              </div>
+            </div>
           </Col>
         </Row>
+        <CheckoutBilling isOpen={ checkoutBillingIsOpen } toggle={ this.toggleCheckoutBilling } />
       </div>
     )
   }

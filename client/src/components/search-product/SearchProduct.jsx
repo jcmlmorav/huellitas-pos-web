@@ -85,7 +85,7 @@ class SearchProduct extends Component {
                   <Input id="searchProduct" name="searchProduct" onChange={ this.handleProductValue } type="text" tabIndex="1" value={ product.barcode } />
                 </Col>
                 <Col lg="2">
-                  <Button color="primary">Buscar</Button>
+                  <Button color="primary" tabIndex="-1">Buscar</Button>
                 </Col>
               </Row>
             </FormGroup>

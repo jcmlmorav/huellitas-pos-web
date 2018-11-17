@@ -74,24 +74,24 @@ class ProductInfo extends Component {
             </FormGroup>
             <FormGroup>
               <Label for="description">Descripción</Label>
-              <Input onChange={ this.handleDescription } id="description" maxLength="40" name="description" type="text" value={ description } />
+              <Input onChange={ this.handleDescription } id="description" maxLength="40" name="description" type="text" value={ description } tabIndex="1" />
             </FormGroup>
             <FormGroup>
               <Label for="quantity">Cantidad</Label>
-              <Input onChange={ this.handleQuantity } id="quantity" name="quantity" type="number" step="1" value={ quantity } />
+              <Input onChange={ this.handleQuantity } id="quantity" name="quantity" type="number" step="1" value={ quantity } tabIndex="2" />
             </FormGroup>
             <FormGroup>
               <Label for="price">Precio</Label>
               <InputGroup>
-              <InputGroupAddon addonType="prepend">$</InputGroupAddon>
-              <Input onChange={ this.handlePrice } id="price" name="price" type="number" step="500" value={ price }/>
-            </InputGroup>
+                <InputGroupAddon addonType="prepend">$</InputGroupAddon>
+                <Input onChange={ this.handlePrice } id="price" name="price" type="number" step="500" value={ price } tabIndex="3" />
+              </InputGroup>
             </FormGroup>
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button color="secondary" onClick={ this.handleCancel } outline>Cancelar</Button>
-          <Button color="primary">Guardar</Button>
+          <Button color="secondary" onClick={ this.handleCancel } outline tabIndex="-1">Cancelar</Button>
+          <Button color="primary" tabIndex="4">Guardar</Button>
         </ModalFooter>
       </Modal>
     )
