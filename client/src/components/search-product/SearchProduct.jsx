@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getProduct } from '../../actions/inventory';
 import { ProductInfo } from '../../components';
 import {
   Alert,
@@ -18,12 +20,7 @@ class SearchProduct extends Component {
     this.state = {
       alert: null,
       productInfoIsOpen: false,
-      product: {
-        barcode: '',
-        description: '',
-        price: 0,
-        quantity: 0
-      }
+      barcode: ''
     };
   }
   
@@ -36,19 +33,19 @@ class SearchProduct extends Component {
       this.setState({ alert: null });
     }
 
-    const { product } = this.state;
+    let { barcode } = this.state;
     
-    product.barcode = e.target.value;
+    barcode = e.target.value;
 
-    this.setState({ product });
+    this.setState({ barcode });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { product } = this.state;
+    const { barcode } = this.state;
 
-    if( !product.barcode ) {
+    if( !barcode ) {
       let { alert } = this.state;
 
       alert = <Alert color='danger'>No se ha escrito nada en el campo de búsqueda de productos</Alert>;
@@ -58,6 +55,8 @@ class SearchProduct extends Component {
       const { mode } = this.props;
 
       this.setState({ alert: null });
+      
+      this.props.getProduct(barcode);
 
       if( mode === 'inventory' ) {
         this.setState({ productInfoIsOpen: true });
@@ -69,9 +68,14 @@ class SearchProduct extends Component {
     this.setState(prevState => ({ productInfoIsOpen: !prevState.productInfoIsOpen }));
   }
 
+  handleProductInfoSubmit = () => {
+    this.toggleProductInfo();
+    this.setState({ barcode: '' });
+  }
+
   render() {
-    const { titleText } = this.props;
-    const { alert, productInfoIsOpen, product } = this.state;
+    const { titleText, product } = this.props;
+    const { alert, productInfoIsOpen, barcode } = this.state;
 
     return (
       <Row>
@@ -82,7 +86,7 @@ class SearchProduct extends Component {
               <Label for="searchProduct">{ titleText }</Label>
               <Row>
                 <Col lg="10">
-                  <Input id="searchProduct" name="searchProduct" onChange={ this.handleProductValue } type="text" tabIndex="1" value={ product.barcode } />
+                  <Input id="searchProduct" name="searchProduct" onChange={ this.handleProductValue } type="text" tabIndex="1" value={ barcode } />
                 </Col>
                 <Col lg="2">
                   <Button color="primary" tabIndex="-1">Buscar</Button>
@@ -90,11 +94,21 @@ class SearchProduct extends Component {
               </Row>
             </FormGroup>
           </Form>
-          <ProductInfo isOpen={ productInfoIsOpen } toggle={ this.toggleProductInfo } barcode={ product.barcode } />
+          { productInfoIsOpen &&
+            <ProductInfo toggle={ this.toggleProductInfo } barcode={ barcode } onSubmit={ this.handleProductInfoSubmit } product={ product } />
+          }
         </Col>
       </Row>
     )
   }
 }
 
-export default SearchProduct;
+const mapStateToprops = state => ({
+  product: state.inventory.product
+});
+
+const mapDispatchToProps = dispatch => ({
+  getProduct: barcode => dispatch(getProduct(barcode))
+});
+
+export default connect(mapStateToprops, mapDispatchToProps)(SearchProduct);

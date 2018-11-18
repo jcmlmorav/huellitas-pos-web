@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { ProductsList, SearchProduct } from '../../components';
-import PRODUCTS from '../../constants/products.mock';
 
 class Inventory extends Component {
-  constructor() {
-    super();
-
-    this.state = { products: PRODUCTS };
-  }
-
   render() {
-    const { products } = this.state;
+    const { products } = this.props;
 
     return (
       <div>
@@ -22,4 +16,10 @@ class Inventory extends Component {
   }
 }
 
-export default Inventory;
+const mapStateToProps = state => ({
+  products: state.inventory.products
+});
+
+export default connect(
+  mapStateToProps
+)(Inventory);

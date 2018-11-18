@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { addProduct, updateProduct } from '../../actions/inventory';
 import {
   Button,
   Form,
@@ -18,84 +20,105 @@ class ProductInfo extends Component {
     super(props);
 
     this.state = {
-      barcode: '',
+      isOpen: true,
       description: '',
-      isOpen: false,
       price: 0,
       quantity: 0
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const { isOpen } = props;
+  componentDidMount() {
+    document.getElementById('description').focus();
 
-    state.isOpen = isOpen;
+    const { product } = this.props;
 
-    return state;
+    if(product !== undefined) {
+      this.setState({
+        description: product.description,
+        price: product.price,
+        quantity: product.quantity
+      });
+    }
   }
 
-  handleDescription = (e) => {
-    this.setState({ description: e.target.value });
-  }
-
-  handlePrice = (e) => {
-    this.setState({ price: e.target.value });
-  }
-
-  handleQuantity = (e) => {
-    this.setState({ quantity: e.target.value });
-  }
-
-  handleCancel = () => {
-    const { toggle } = this.props;
+  handleInputChange = (e) => {
+    const value = e.target.value;
+    const name = e.target.name;
 
     this.setState({
-      barcode: '',
-      description: '',
-      price: 0,
-      quantity: 0
+      [name]: value
     });
+  }
 
-    toggle();
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    const { description, price, quantity } = this.state;
+    const { barcode, product } = this.props;
+
+    const productObj = {
+      barcode,
+      description,
+      price,
+      quantity
+    }
+
+    if(product.barcode === barcode) {
+      this.props.updateProduct(productObj);
+    } else {
+      this.props.addProduct(productObj);
+    }
+
+    this.props.onSubmit();
   }
 
   render() {
     const { barcode } = this.props;
-    const { description, quantity, price } = this.state;
+    const { description, price, quantity } = this.state;
 
     return (
-      <Modal isOpen={this.state.isOpen}>
+      <Modal isOpen={ this.state.isOpen }>
         <ModalHeader>Información de producto</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>
               <Label for="barcode">Código</Label>
-              <Input disabled id="barcode" onChange={() => {}} name="barcode" type="text" value={ barcode } />
+              <Input disabled id="barcode" onChange={ () => {} } name="barcode" type="text" value={ barcode } />
             </FormGroup>
             <FormGroup>
               <Label for="description">Descripción</Label>
-              <Input onChange={ this.handleDescription } id="description" maxLength="40" name="description" type="text" value={ description } tabIndex="1" />
+              <Input id="description" maxLength="40" name="description" onChange={ this.handleInputChange } type="text" tabIndex="1" value={ description } />
             </FormGroup>
             <FormGroup>
               <Label for="quantity">Cantidad</Label>
-              <Input onChange={ this.handleQuantity } id="quantity" name="quantity" type="number" step="1" value={ quantity } tabIndex="2" />
+              <Input id="quantity" name="quantity" onChange={ this.handleInputChange } type="number" step="1" tabIndex="2" value={ quantity } />
             </FormGroup>
             <FormGroup>
               <Label for="price">Precio</Label>
               <InputGroup>
                 <InputGroupAddon addonType="prepend">$</InputGroupAddon>
-                <Input onChange={ this.handlePrice } id="price" name="price" type="number" step="500" value={ price } tabIndex="3" />
+                <Input id="price" name="price" onChange={ this.handleInputChange } type="number" step="500" tabIndex="3" value={ price } />
               </InputGroup>
             </FormGroup>
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button color="secondary" onClick={ this.handleCancel } outline tabIndex="-1">Cancelar</Button>
-          <Button color="primary" tabIndex="4">Guardar</Button>
+          <Button color="secondary" onClick={ this.props.toggle } outline tabIndex="-1">Cancelar</Button>
+          <Button color="primary" tabIndex="4" onClick={ this.handleSubmit } type="submit">Guardar</Button>
         </ModalFooter>
       </Modal>
     )
   }
 }
 
-export default ProductInfo;
+const mapStateToprops = (state, ownProps) => ({
+  barcode: ownProps.barcode,
+  product: ownProps.product
+});
+
+const mapDispatchToProps = dispatch => ({
+  addProduct: product => dispatch(addProduct(product)),
+  updateProduct: product => dispatch(updateProduct(product))
+});
+
+export default connect(mapStateToprops, mapDispatchToProps)(ProductInfo);
