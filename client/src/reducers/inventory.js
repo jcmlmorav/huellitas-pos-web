@@ -18,7 +18,13 @@ const inventory = (state = initState, action) => {
             quantity: action.payload.quantity
           },
           ...state.products
-        ]
+        ],
+        product: {
+          barcode: action.payload.barcode,
+          description: action.payload.description,
+          price: action.payload.price,
+          quantity: action.payload.quantity
+        }
       }
     case TYPES.GET_PRODUCTS:
       return state

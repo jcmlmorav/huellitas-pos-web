@@ -3,6 +3,8 @@ import { Card, CardBody, CardTitle, Table } from 'reactstrap';
 
 class BillingStatus extends Component {
   render() {
+    const { billing } = this.props;
+
     return (
       <div>
         <Card>
@@ -12,15 +14,15 @@ class BillingStatus extends Component {
               <tbody>
                 <tr>
                   <th scope="row"><strong>Subtotal</strong></th>
-                  <td>$ 100.000</td>
+                  <td>$ { billing.subtotal }</td>
                 </tr>
                 <tr>
                   <th scope="row"><strong>IVA</strong></th>
-                  <td>$ 19.000</td>
+                  <td>$ { billing.iva }</td>
                 </tr>
                 <tr>
                   <th scope="row"><strong>Total</strong></th>
-                  <td>$ 119.000</td>
+                  <td>$ { billing.total }</td>
                 </tr>
               </tbody>
             </Table>

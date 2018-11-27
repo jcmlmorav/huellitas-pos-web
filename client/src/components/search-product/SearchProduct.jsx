@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getProduct } from '../../actions/inventory';
+import { addProductToBilling } from '../../actions/billing';
 import { ProductInfo } from '../../components';
 import {
   Alert,
@@ -52,14 +53,26 @@ class SearchProduct extends Component {
 
       this.setState({ alert });
     } else {
-      const { mode } = this.props;
+      const { getProduct, mode } = this.props;
 
       this.setState({ alert: null });
-      
-      this.props.getProduct(barcode);
+      getProduct(barcode);
 
       if( mode === 'inventory' ) {
         this.setState({ productInfoIsOpen: true });
+      }
+
+      if( mode === 'billing' ) {
+        const { addProductToBilling, products } = this.props;
+
+        let productExists = products.find(product => product.barcode === barcode);
+  
+        if( productExists ) {
+          addProductToBilling(productExists);
+          this.setState({ barcode: '' });
+        } else {
+          this.setState({ productInfoIsOpen: true });
+        }
       }
     }
   }
@@ -74,7 +87,7 @@ class SearchProduct extends Component {
   }
 
   render() {
-    const { titleText, product } = this.props;
+    const { mode, titleText, product } = this.props;
     const { alert, productInfoIsOpen, barcode } = this.state;
 
     return (
@@ -95,7 +108,7 @@ class SearchProduct extends Component {
             </FormGroup>
           </Form>
           { productInfoIsOpen &&
-            <ProductInfo toggle={ this.toggleProductInfo } barcode={ barcode } onSubmit={ this.handleProductInfoSubmit } product={ product } />
+            <ProductInfo toggle={ this.toggleProductInfo } barcode={ barcode } onSubmit={ this.handleProductInfoSubmit } product={ product } mode={ mode } />
           }
         </Col>
       </Row>
@@ -104,11 +117,13 @@ class SearchProduct extends Component {
 }
 
 const mapStateToprops = state => ({
-  product: state.inventory.product
+  product: state.inventory.product,
+  products: state.inventory.products
 });
 
 const mapDispatchToProps = dispatch => ({
-  getProduct: barcode => dispatch(getProduct(barcode))
+  getProduct: barcode => dispatch(getProduct(barcode)),
+  addProductToBilling: product => dispatch(addProductToBilling(product))
 });
 
 export default connect(mapStateToprops, mapDispatchToProps)(SearchProduct);

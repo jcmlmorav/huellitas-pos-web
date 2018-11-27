@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
 import { Alert, Col, Table, Row } from 'reactstrap';
-import PRODUCTS from '../../constants/products.mock';
 
 class BillingProducts extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { products: PRODUCTS };
+    this.state = { products: [] };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    const { products } = props;
+
+    return {
+      ...state,
+      products
+    }
   }
 
   render() {
     let component = null;
     const { products } = this.state;
 
-    if( products.length ) {
+    if( products && products.length ) {
       component = (
         <Row>
           <Col>

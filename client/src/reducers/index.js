@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux';
 import inventory from './inventory';
-import { createForms } from 'react-redux-form';
+import billings from './billings';
 
 export default combineReducers({
   inventory,
-  ...createForms({
-    product: []
-  }),
+  billings,
 });

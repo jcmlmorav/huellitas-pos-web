@@ -10,17 +10,18 @@ class ProductsList extends Component {
 
   static getDerivedStateFromProps(props, state) {
     const { products } = props;
-
-    state.products = products;
-
-    return state;
+    
+    return {
+      ...state,
+      products
+    };
   }
 
   render() {
     let component = null;
     const { products } = this.state;
 
-    if( products.length ) {
+    if( products && products.length ) {
       component = (
         <Row>
           <Col>

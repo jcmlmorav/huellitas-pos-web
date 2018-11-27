@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addProduct, updateProduct } from '../../actions/inventory';
+import { addProductToBilling } from '../../actions/billing';
 import {
   Button,
   Form,
@@ -54,7 +55,14 @@ class ProductInfo extends Component {
     e.preventDefault();
 
     const { description, price, quantity } = this.state;
-    const { barcode, product } = this.props;
+    const {
+      addProduct,
+      addProductToBilling,
+      barcode,
+      mode,
+      product,
+      updateProduct
+    } = this.props;
 
     const productObj = {
       barcode,
@@ -64,9 +72,13 @@ class ProductInfo extends Component {
     }
 
     if(product.barcode === barcode) {
-      this.props.updateProduct(productObj);
+      updateProduct(productObj);
     } else {
-      this.props.addProduct(productObj);
+      addProduct(productObj);
+      
+      if( mode === 'billing' ) {
+        addProductToBilling(productObj);
+      }
     }
 
     this.props.onSubmit();
@@ -118,7 +130,8 @@ const mapStateToprops = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   addProduct: product => dispatch(addProduct(product)),
-  updateProduct: product => dispatch(updateProduct(product))
+  updateProduct: product => dispatch(updateProduct(product)),
+  addProductToBilling: product => dispatch(addProductToBilling(product))
 });
 
 export default connect(mapStateToprops, mapDispatchToProps)(ProductInfo);
