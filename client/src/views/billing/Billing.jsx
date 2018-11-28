@@ -23,6 +23,7 @@ class Billing extends Component {
   render() {
     const { checkoutBillingIsOpen } = this.state;
     const { billing } = this.props;
+    const billingDisabled = billing.products.length > 0;
 
     return (
       <div>
@@ -36,8 +37,8 @@ class Billing extends Component {
             <div className="stickyElement">
               <BillingStatus billing={ billing } />
               <div className="billingButtons">
-                <Button block color="primary" onClick={ this.toggleCheckoutBilling } tabIndex="-1">Finalizar compra</Button>
-                <Button block color="secondary" outline tabIndex="-1">Cancelar compra</Button>
+                <Button block color="primary" disabled={ !billingDisabled } onClick={ this.toggleCheckoutBilling } tabIndex="-1">Finalizar compra</Button>
+                <Button block color="secondary" disabled={ !billingDisabled } outline tabIndex="-1">Cancelar compra</Button>
               </div>
             </div>
           </Col>

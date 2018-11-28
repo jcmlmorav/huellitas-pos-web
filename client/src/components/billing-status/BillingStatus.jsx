@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardTitle, Table } from 'reactstrap';
+import CurrencyFormat from '../../utils/CurrencyFormat';
 
 class BillingStatus extends Component {
   render() {
@@ -14,15 +15,15 @@ class BillingStatus extends Component {
               <tbody>
                 <tr>
                   <th scope="row"><strong>Subtotal</strong></th>
-                  <td>$ { billing.subtotal }</td>
+                  <td>{ CurrencyFormat(billing.subtotal) }</td>
                 </tr>
                 <tr>
                   <th scope="row"><strong>IVA</strong></th>
-                  <td>$ { billing.iva }</td>
+                  <td>{ CurrencyFormat(billing.iva) }</td>
                 </tr>
                 <tr>
                   <th scope="row"><strong>Total</strong></th>
-                  <td>$ { billing.total }</td>
+                  <td>{ CurrencyFormat(billing.total) }</td>
                 </tr>
               </tbody>
             </Table>

@@ -11,6 +11,6 @@ export const addProductToBilling = (product) => ({
     barcode: product.barcode,
     description: product.description,
     price: product.price,
-    quantity: product.quantity
+    quantity: 1
   }
 });

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import CurrencyFormat from '../../utils/CurrencyFormat';
 import {
   Button,
   Card,
@@ -20,7 +22,11 @@ class CheckoutBilling extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { isOpen: false };
+    this.state = {
+      currentMoney: null,
+      currentChange: null,
+      isOpen: false
+    };
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -31,9 +37,31 @@ class CheckoutBilling extends Component {
     return state;
   }
 
-  render() {
+  toggle = () => {
     const { toggle } = this.props;
-    const { isOpen } = this.state;
+
+    this.setState({
+      currentMoney: null,
+      currentChange: null
+    });
+
+    toggle();
+  }
+
+  handleMoneyChange = event => {
+    const { billing } = this.props;
+    const value = event.target.value;
+
+    this.setState({
+      currentChange: value - billing.total,
+      currentMoney: value
+    });
+  }
+
+  render() {
+    const { billing } = this.props;
+    const { currentChange, currentMoney, isOpen } = this.state;
+    const checkoutDisabled = currentMoney >= billing.total;
 
     return (
       <Modal isOpen={ isOpen }>
@@ -55,20 +83,20 @@ class CheckoutBilling extends Component {
             </Card>
             <hr />
             <Card>
-              <CardHeader>Pago</CardHeader>
+              <CardHeader>Pago: <strong>{ CurrencyFormat(billing.total) }</strong></CardHeader>
               <CardBody>
                 <FormGroup>
                   <Label for="money">Efectivo</Label>
                   <InputGroup>
                     <InputGroupAddon addonType="prepend">$</InputGroupAddon>
-                    <Input id="money" name="money" type="number" step="500" tabIndex="2" />
+                    <Input id="money" name="money" onChange={ this.handleMoneyChange } type="number" step="500" tabIndex="2" value={ currentMoney } />
                   </InputGroup>
                 </FormGroup>
                 <FormGroup>
                   <Label for="change">Cambio</Label>
                   <InputGroup>
                     <InputGroupAddon addonType="prepend">$</InputGroupAddon>
-                    <Input disabled id="change" name="change" type="number" step="500" tabIndex="-1" />
+                    <Input disabled id="change" name="change" type="number" step="500" tabIndex="-1" value={ currentChange } />
                   </InputGroup>
                 </FormGroup>
               </CardBody>
@@ -76,12 +104,16 @@ class CheckoutBilling extends Component {
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button color="secondary" onClick={ toggle } outline tabIndex="-1">Volver</Button>
-          <Button color="primary" tabIndex="-1">Finalizar</Button>
+          <Button color="secondary" onClick={ this.toggle } outline tabIndex="-1">Volver</Button>
+          <Button color="primary" disabled={ !checkoutDisabled } tabIndex="-1">Finalizar</Button>
         </ModalFooter>
       </Modal>
     )
   }
 }
 
-export default CheckoutBilling;
+const mapStateToProps = state => ({
+  billing: state.billings.billing
+});
+
+export default connect(mapStateToProps)(CheckoutBilling);

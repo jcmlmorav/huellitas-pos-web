@@ -1,15 +1,15 @@
 const PRODUCTS = [
   {
-    barcode: '0000000001',
+    barcode: '1',
     description: 'Descripción del producto 1',
     quantity: 10,
-    price: 3000
+    price: 2514
   },
   {
-    barcode: '0000000002',
+    barcode: '2',
     description: 'Descripción del producto 2',
     quantity: 5,
-    price: 10000
+    price: 9651
   }
 ];
 

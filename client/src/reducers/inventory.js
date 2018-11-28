@@ -1,7 +1,8 @@
 import TYPES from '../constants/types';
+import PRODUCTS from '../constants/products.mock';
 
 const initState = {
-  products: [],
+  products: PRODUCTS,
   product: {}
 };
 

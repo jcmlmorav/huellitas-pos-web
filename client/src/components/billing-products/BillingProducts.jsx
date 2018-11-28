@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, Col, Table, Row } from 'reactstrap';
+import CurrencyFormat from '../../utils/CurrencyFormat';
 
 class BillingProducts extends Component {
   constructor(props) {
@@ -41,8 +42,8 @@ class BillingProducts extends Component {
                     <th scope="row">{ product.barcode }</th>
                     <td>{ product.description }</td>
                     <td>{ product.quantity }</td>
-                    <td>$ { product.price }</td>
-                    <td>$ { product.quantity * product.price }</td>
+                    <td>{ CurrencyFormat(product.price) }</td>
+                    <td>{ CurrencyFormat(product.quantity * product.price) }</td>
                   </tr>
                 )) }
               </tbody>
