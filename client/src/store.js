@@ -1,5 +1,8 @@
 import { applyMiddleware, createStore } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 import rootReducer from './reducers';
+import productsSaga from './sagas/products';
+import addProductSaga from './sagas/addProduct';
 
 const logger = store => next => action => {
   console.group(action.type)
@@ -10,11 +13,17 @@ const logger = store => next => action => {
   return result
 }
 
+const sagaMiddleware = createSagaMiddleware();
+
 let store = createStore(
   rootReducer,
   applyMiddleware(
-    logger
+    logger,
+    sagaMiddleware
   )
 );
+
+sagaMiddleware.run(productsSaga);
+sagaMiddleware.run(addProductSaga);
 
 export default store;

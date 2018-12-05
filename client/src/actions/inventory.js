@@ -6,7 +6,8 @@ export const addProduct = (product) => ({
     barcode: product.barcode,
     description: product.description,
     price: product.price,
-    quantity: product.quantity
+    quantity: product.quantity,
+    discount: product.discount
   }
 });
 

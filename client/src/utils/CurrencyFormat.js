@@ -1,3 +1,3 @@
-const currencyFormat = (number) => `$ ${ (number).toFixed(0).replace(/\d(?=(\d{3}))/g, '$&.') }`;
+const currencyFormat = (number) => `$ ${ number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') }`;
 
 export default currencyFormat;

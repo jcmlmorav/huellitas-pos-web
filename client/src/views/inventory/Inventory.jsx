@@ -1,32 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { getProducts } from '../../actions/inventory';
 import { ProductsList, SearchProduct } from '../../components';
 
 class Inventory extends Component {
+  constructor(props) {
+    super(props);
+
+    const { dispatch } = props;
+
+    this.boundActionCreators = bindActionCreators(getProducts, dispatch);
+  }
+
   componentDidMount() {
-    this.props.getProducts();
+    let { dispatch } = this.props;
+    dispatch(getProducts());
   }
 
   render() {
-    const { products } = this.props;
+    const { products, error } = this.props;
+
+    console.log(error);
 
     return (
       <div>
         <h1 className="text-center">Inventario</h1>
         <SearchProduct titleText="Buscar producto" mode="inventory" />
-        <ProductsList products={ products } />
+        <ProductsList products={ products } error={ error } />
       </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  products: state.inventory.products
+  products: state.inventory.products,
+  error: state.inventory.error
 });
 
-const mapDispatchToProps = dispatch => ({
-  getProducts: () => dispatch(getProducts())
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Inventory);
+export default connect(mapStateToProps)(Inventory);

@@ -2,18 +2,30 @@ import React, { Component } from 'react';
 import { BillingProducts, BillingStatus, CheckoutBilling, SearchProduct } from '../../components';
 import { Button, Col, Row } from 'reactstrap';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getProducts } from '../../actions/inventory';
 import { getBilling } from '../../actions/billing';
 import './styles.scss';
 
 class Billing extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
+    const { dispatch } = props;
 
     this.state = { checkoutBillingIsOpen: false };
+
+    this.boundActionCreators = bindActionCreators({
+      getBilling: dispatch,
+      getProducts: dispatch
+    });
   }
 
   componentDidMount() {
-    this.props.getBilling();
+    let { dispatch } = this.props;
+
+    dispatch(getProducts());
+    dispatch(getBilling());
   }
 
   toggleCheckoutBilling = () => {
@@ -53,8 +65,4 @@ const mapStateToprops = state => ({
   billing: state.billings.billing
 });
 
-const mapDispatchToProps = dispatch => ({
-  getBilling: billing => dispatch(getBilling(billing))
-});
-
-export default connect(mapStateToprops, mapDispatchToProps)(Billing);
+export default connect(mapStateToprops)(Billing);

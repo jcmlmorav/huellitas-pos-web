@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Col, Table, Row } from 'reactstrap';
+import { Alert, Col, Progress, Table, Row } from 'reactstrap';
 import CurrencyFormat from '../../utils/CurrencyFormat';
 
 class ProductsList extends Component {
@@ -10,52 +10,65 @@ class ProductsList extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { products } = props;
+    const { products, error } = props;
     
     return {
       ...state,
-      products
+      products,
+      error
     };
   }
 
   render() {
     let component = null;
-    const { products } = this.state;
+    const { products, error } = this.state;
 
-    if( products && products.length ) {
-      component = (
-        <Row>
-          <Col>
-            <Table>
-              <thead>
-                <tr>
-                  <th>Código de barras</th>
-                  <th>Descripción</th>
-                  <th>Cantidad</th>
-                  <th>Precio</th>
-                </tr>
-              </thead>
-              <tbody>
-                { products.map((product, index) => (
-                  <tr key={ index }>
-                    <th scope="row">{ product.barcode }</th>
-                    <td>{ product.description }</td>
-                    <td>{ product.quantity }</td>
-                    <td>{ CurrencyFormat(product.price) }</td>
+    if( products ) {
+      if( products.length ) {
+        component = (
+          <Row>
+            <Col>
+              <Table>
+                <thead>
+                  <tr>
+                    <th>Código de barras</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Descuento</th>
                   </tr>
-                )) }
-              </tbody>
-            </Table>
-          </Col>
-        </Row>
-      )
+                </thead>
+                <tbody>
+                  { products.map((product, index) => (
+                    <tr key={ index }>
+                      <th scope="row">{ product.barcode }</th>
+                      <td>{ product.description }</td>
+                      <td>{ product.quantity }</td>
+                      <td>{ CurrencyFormat(product.price) }</td>
+                      <td>{ product.discount }%</td>
+                    </tr>
+                  )) }
+                </tbody>
+              </Table>
+            </Col>
+          </Row>
+        )
+      } else {
+        component = (
+          <Alert color="primary">
+            No se han agregado productos al inventario. <br />
+            Para agregar un producto escanee el código de barras o ingrese el código en el campo buscar, luego complete la información.
+          </Alert>
+        );
+      }
     } else {
-      component = (
-        <Alert color="primary">
-          No se han agregado productos al inventario. <br />
-          Para agregar un producto escanee el código de barras o ingrese el código en el campo buscar, luego complete la información.
-        </Alert>
-      );
+      if( 'failed' in error ) {
+        component = (
+          <Alert color="danger">{ error.failed }</Alert>
+        );
+      } else {
+        component = (<Progress animated value={100} />);
+      }
     }
 
     return (

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { getProduct } from '../../actions/inventory';
 import { addProductToBilling } from '../../actions/billing';
 import { ProductInfo } from '../../components';
@@ -23,6 +24,13 @@ class SearchProduct extends Component {
       productInfoIsOpen: false,
       barcode: ''
     };
+
+    const { dispatch } = props;
+
+    this.boundActionCreators = bindActionCreators({
+      getProduct: dispatch,
+      addProductToBilling: dispatch,
+    });
   }
   
   componentDidMount() {
@@ -53,22 +61,22 @@ class SearchProduct extends Component {
 
       this.setState({ alert });
     } else {
-      const { getProduct, mode } = this.props;
+      const { dispatch, mode } = this.props;
 
       this.setState({ alert: null });
-      getProduct(barcode);
+      dispatch(getProduct(barcode));
 
       if( mode === 'inventory' ) {
         this.setState({ productInfoIsOpen: true });
       }
 
       if( mode === 'billing' ) {
-        const { addProductToBilling, products } = this.props;
+        const { products } = this.props;
 
         let productExists = products.find(product => product.barcode === barcode);
   
         if( productExists ) {
-          addProductToBilling(productExists);
+          dispatch(addProductToBilling(productExists));
           this.setState({ barcode: '' });
         } else {
           this.setState({ productInfoIsOpen: true });
@@ -87,7 +95,7 @@ class SearchProduct extends Component {
   }
 
   render() {
-    const { mode, titleText, product } = this.props;
+    const { mode, titleText, product, error } = this.props;
     const { alert, productInfoIsOpen, barcode } = this.state;
 
     return (
@@ -108,7 +116,7 @@ class SearchProduct extends Component {
             </FormGroup>
           </Form>
           { productInfoIsOpen &&
-            <ProductInfo toggle={ this.toggleProductInfo } barcode={ barcode } onSubmit={ this.handleProductInfoSubmit } product={ product } mode={ mode } />
+            <ProductInfo toggle={ this.toggleProductInfo } barcode={ barcode } onSubmit={ this.handleProductInfoSubmit } product={ product } mode={ mode } error={ error } />
           }
         </Col>
       </Row>
@@ -118,12 +126,8 @@ class SearchProduct extends Component {
 
 const mapStateToprops = state => ({
   product: state.inventory.product,
-  products: state.inventory.products
+  products: state.inventory.products,
+  error: state.inventory.error
 });
 
-const mapDispatchToProps = dispatch => ({
-  getProduct: barcode => dispatch(getProduct(barcode)),
-  addProductToBilling: product => dispatch(addProductToBilling(product))
-});
-
-export default connect(mapStateToprops, mapDispatchToProps)(SearchProduct);
+export default connect(mapStateToprops)(SearchProduct);
