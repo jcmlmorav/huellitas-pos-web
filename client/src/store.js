@@ -3,6 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 import rootReducer from './reducers';
 import productsSaga from './sagas/products';
 import addProductSaga from './sagas/addProduct';
+import updateProductSaga from './sagas/updateProduct';
 
 const logger = store => next => action => {
   console.group(action.type)
@@ -25,5 +26,6 @@ let store = createStore(
 
 sagaMiddleware.run(productsSaga);
 sagaMiddleware.run(addProductSaga);
+sagaMiddleware.run(updateProductSaga);
 
 export default store;

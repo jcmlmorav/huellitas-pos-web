@@ -57,9 +57,11 @@ class ProductInfo extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if( Object.keys(props.createdProduct).length ) {
+    if( Object.keys(props.createdProduct).length || Object.keys(props.updatedProduct).length ) {
       props.onSubmit();
     }
+
+    return state;
   }
 
   handleInputChange = (e) => {
@@ -92,6 +94,7 @@ class ProductInfo extends Component {
       }
 
       if(product.barcode === barcode) {
+        productObj.id = product.id;
         dispatch(updateProduct(productObj));
       } else {
         dispatch(addProduct(productObj));
@@ -189,7 +192,8 @@ class ProductInfo extends Component {
 const mapStateToprops = (state, ownProps) => ({
   barcode: ownProps.barcode,
   product: ownProps.product,
-  createdProduct: state.inventory.createdProduct
+  createdProduct: state.inventory.createdProduct,
+  updatedProduct: state.inventory.updatedProduct
 });
 
 export default connect(mapStateToprops)(ProductInfo);

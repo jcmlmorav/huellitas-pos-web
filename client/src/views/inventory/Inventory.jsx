@@ -21,8 +21,6 @@ class Inventory extends Component {
   render() {
     const { products, error } = this.props;
 
-    console.log(error);
-
     return (
       <div>
         <h1 className="text-center">Inventario</h1>

@@ -23,9 +23,11 @@ export const getProduct = (barcode) => ({
 export const updateProduct = (product) => ({
   type: TYPES.UPDATE_PRODUCT,
   payload: {
+    id: product.id,
     barcode: product.barcode,
     description: product.description,
     price: product.price,
-    quantity: product.quantity
+    quantity: product.quantity,
+    discount: product.discount
   }
 });

@@ -4,7 +4,8 @@ const initState = {
   products: [],
   product: {},
   error: {},
-  createdProduct: {}
+  createdProduct: {},
+  updatedProduct: {}
 };
 
 const inventory = (state = initState, action) => {
@@ -28,6 +29,7 @@ const inventory = (state = initState, action) => {
           error: {},
           products: [
             {
+              id: action.payload.data.id,
               barcode: action.payload.data.barcode,
               description: action.payload.data.description,
               price: action.payload.data.price,
@@ -37,6 +39,7 @@ const inventory = (state = initState, action) => {
             ...state.products
           ],
           createdProduct: {
+            id: action.payload.data.id,
             barcode: action.payload.data.barcode,
             description: action.payload.data.description,
             price: action.payload.data.price,
@@ -58,6 +61,7 @@ const inventory = (state = initState, action) => {
         ...state,
         products: null,
         createdProduct: {},
+        updatedProduct: {},
         error: {}
       }
     case TYPES.GET_PRODUCTS_SUCCEEDED:
@@ -78,21 +82,54 @@ const inventory = (state = initState, action) => {
       return {
         ...state,
         product: state.products.find(product => product.barcode === action.payload) || {},
-        createdProduct: {}
+        createdProduct: {},
+        updatedProduct: {},
       }
     case TYPES.UPDATE_PRODUCT:
-      	return {
+      return {
+        ...state,
+        updatedProduct: {},
+        error: {}
+      }
+    case TYPES.UPDATE_PRODUCT_SUCCEEDED:
+      if(Object.keys(action.payload).length && 'error' in action.payload) {
+        return {
           ...state,
-          products: state.products.map(product => 
-            (product.barcode === action.payload.barcode) ?
+          error: action.payload.error,
+          updatedProduct: {}
+        }
+      } else {
+        return {
+          ...state,
+          error: {},
+          products: state.products.map(product => (
+            product.barcode === action.payload.data.barcode) ?
             {
               ...product,
-              description: action.payload.description,
-              price: action.payload.price,
-              quantity: action.payload.quantity
+              description: action.payload.data.description,
+              price: action.payload.data.price,
+              quantity: action.payload.data.quantity,
+              discount: action.payload.data.discount
             } : product
-          )
+          ),
+          updatedProduct: {
+            id: action.payload.data.id,
+            barcode: action.payload.data.barcode,
+            description: action.payload.data.description,
+            price: action.payload.data.price,
+            quantity: action.payload.data.quantity,
+            discount: action.payload.data.discount
+          }
         }
+      }
+    case TYPES.UPDATE_PRODUCT_FAILED:
+      return {
+        ...state,
+        updatedProduct: {},
+        error: {
+          failed: 'Ocurrió un problema al agregar el producto. Intente nuevamente.'
+        }
+      }
     default:
       return state;
   }

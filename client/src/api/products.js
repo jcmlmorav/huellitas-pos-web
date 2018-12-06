@@ -26,6 +26,23 @@ class ProductsApi {
       return error;
     });
   }
+
+  static update(product) {
+    return fetch(
+      `${ ENDPOINTS.products }/${ product.id }`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(product),
+        headers:{
+          'Content-Type': 'application/json'
+        }
+      }
+    ).then(response => {
+      return response.json();
+    }).catch(error => {
+      return error;
+    });
+  }
 }
 
 export default ProductsApi;  
