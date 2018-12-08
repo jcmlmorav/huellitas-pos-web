@@ -15,9 +15,9 @@ export const getProducts = () => ({
   type: TYPES.GET_PRODUCTS
 });
 
-export const getProduct = (barcode) => ({
+export const getProduct = (term) => ({
   type: TYPES.GET_PRODUCT,
-  payload: barcode
+  payload: term
 });
 
 export const updateProduct = (product) => ({
@@ -30,4 +30,8 @@ export const updateProduct = (product) => ({
     quantity: product.quantity,
     discount: product.discount
   }
+});
+
+export const cleanSelectedProduct = () => ({
+  type: TYPES.CLEAN_SELECTED_PRODUCT
 });

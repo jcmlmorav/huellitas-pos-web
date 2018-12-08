@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getProduct } from '../../actions/inventory';
+import { getProduct, cleanSelectedProduct } from '../../actions/inventory';
 import { addProductToBilling } from '../../actions/billing';
-import { ProductInfo } from '../../components';
+import { ProductInfo, ProductsSelector } from '../../components';
 import {
   Alert,
   Button,
@@ -22,7 +22,8 @@ class SearchProduct extends Component {
     this.state = {
       alert: null,
       productInfoIsOpen: false,
-      barcode: ''
+      productSelectorIsOpen: false,
+      barcode: null,
     };
 
     const { dispatch } = props;
@@ -35,6 +36,46 @@ class SearchProduct extends Component {
   
   componentDidMount() {
     document.getElementById('searchProduct').focus();
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    let derivedState = { ...state };
+
+    return derivedState;
+    /* return {
+      ...state,
+      selectedProduct: props.selectedProduct,
+      selectedProducts: props.selectedProducts
+    }; */
+
+    /* if( props.selectedProducts.length && !Object.keys(state.selectedProduct).length ) {
+      newState.productSelectorIsOpen = true;
+    }
+
+    if( Object.keys(state.selectedProduct).length ) {
+      newState.selectedProducts = [];
+      newState.barcode = state.selectedProduct.barcode;
+      newState.selectedProduct = state.selectedProduct;
+      newState.productSelectorIsOpen = false;
+    } */
+
+    /* if(selectedProducts.length) {
+      showProductsSelector = true;
+    } else {
+      showProductInfo = true;
+    } */
+
+    /* if(productInfoIsOpen &&
+      !productSelectorIsOpen &&
+      ((selectedProducts.length === 0 && Object.keys(selectedProduct).length > 0) ||
+      (this.formSubmited && !(products.find(product => product.barcode === barcode))))
+    ) {
+      showProductInfo = true;
+    }
+
+    if(productSelectorIsOpen && selectedProducts.length > 0) {
+      showProductsSelector = true;
+    } */
   }
 
   handleProductValue = (e) => {
@@ -85,18 +126,39 @@ class SearchProduct extends Component {
     }
   }
 
+  cleanproductSelected = () => {
+    const { dispatch }  = this.props;
+
+    dispatch(cleanSelectedProduct());
+  }
+
   toggleProductInfo = () => {
     this.setState(prevState => ({ productInfoIsOpen: !prevState.productInfoIsOpen }));
+    this.cleanproductSelected();
+  }
+
+  toggleProductsSelector = () => {
+    this.setState(prevState => ({ productSelectorIsOpen: !prevState.productSelectorIsOpen }));
+  }
+
+  handleProductSelected = (product) => {
+    this.setState({
+      selectedProduct: {...product},
+      selectedProducts: []
+    });
   }
 
   handleProductInfoSubmit = () => {
-    this.toggleProductInfo();
-    this.setState({ barcode: '' });
+    this.setState({
+      barcode: '',
+      productInfoIsOpen: false
+    });
+    this.cleanproductSelected();
   }
 
   render() {
-    const { mode, titleText, product, error } = this.props;
-    const { alert, productInfoIsOpen, barcode } = this.state;
+    const { mode, titleText, error, selectedProduct, selectedProducts } = this.props;
+    const { alert, productInfoIsOpen, barcode, productSelectorIsOpen } = this.state;
 
     return (
       <Row>
@@ -115,9 +177,8 @@ class SearchProduct extends Component {
               </Row>
             </FormGroup>
           </Form>
-          { productInfoIsOpen &&
-            <ProductInfo toggle={ this.toggleProductInfo } barcode={ barcode } onSubmit={ this.handleProductInfoSubmit } product={ product } mode={ mode } error={ error } />
-          }
+          <ProductInfo isOpen={productInfoIsOpen} toggle={ this.toggleProductInfo } barcode={ barcode } onSubmit={ this.handleProductInfoSubmit } product={ selectedProduct } mode={ mode } error={ error } />
+          <ProductsSelector isOpen={productSelectorIsOpen} products={ selectedProducts } onClose={ this.toggleProductsSelector } handleProductSelected={ this.handleProductSelected } />
         </Col>
       </Row>
     )
@@ -125,7 +186,8 @@ class SearchProduct extends Component {
 }
 
 const mapStateToprops = state => ({
-  product: state.inventory.product,
+  selectedProduct: state.inventory.selectedProduct,
+  selectedProducts: state.inventory.selectedProducts,
   products: state.inventory.products,
   error: state.inventory.error
 });

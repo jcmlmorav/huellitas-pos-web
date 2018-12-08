@@ -2,7 +2,8 @@ import TYPES from '../constants/types';
 
 const initState = {
   products: [],
-  product: {},
+  selectedProduct: {},
+  selectedProducts: [],
   error: {},
   createdProduct: {},
   updatedProduct: {}
@@ -14,6 +15,8 @@ const inventory = (state = initState, action) => {
       return {
         ...state,
         createdProduct: {},
+        selectedProduct: {},
+        selectedProducts: [],
         error: {}
       }
     case TYPES.ADD_PRODUCT_SUCCEEDED:
@@ -62,6 +65,8 @@ const inventory = (state = initState, action) => {
         products: null,
         createdProduct: {},
         updatedProduct: {},
+        selectedProduct: {},
+        selectedProducts: [],
         error: {}
       }
     case TYPES.GET_PRODUCTS_SUCCEEDED:
@@ -81,14 +86,52 @@ const inventory = (state = initState, action) => {
     case TYPES.GET_PRODUCT:
       return {
         ...state,
-        product: state.products.find(product => product.barcode === action.payload) || {},
         createdProduct: {},
         updatedProduct: {},
+        selectedProduct: {},
+        selectedProducts: []
+      }
+    case TYPES.GET_PRODUCT_SUCCEEDED:
+      if(Object.keys(action.payload).length && 'error' in action.payload) {
+        return {
+          ...state,
+          error: action.payload.error,
+          selectedProduct: {},
+          selectedProducts: []
+        }
+      } else {
+        if( typeof action.payload === 'object' && Object.keys(action.payload).length && !(action.payload instanceof Array) ) {
+          return {
+            ...state,
+            error: {},
+            selectedProduct: action.payload,
+            selectedProducts: []
+          }
+        }
+        if( action.payload instanceof Array && action.payload.length > 0 ) {
+          return {
+            ...state,
+            error: {},
+            selectedProduct: {},
+            selectedProducts: action.payload
+          }
+        }
+      }
+      return state;
+    case TYPES.GET_PRODUCT_FAILED:
+      return {
+        ...state,
+        selectedProduct: {},
+        selectedProducts: [],
+        error: {
+          failed: 'Ocurrió un problema al obtener el producto. Intente nuevamente.'
+        }
       }
     case TYPES.UPDATE_PRODUCT:
       return {
         ...state,
         updatedProduct: {},
+        selectedProducts: [],
         error: {}
       }
     case TYPES.UPDATE_PRODUCT_SUCCEEDED:
@@ -129,6 +172,11 @@ const inventory = (state = initState, action) => {
         error: {
           failed: 'Ocurrió un problema al agregar el producto. Intente nuevamente.'
         }
+      }
+    case TYPES.CLEAN_SELECTED_PRODUCT:
+      return {
+        ...state,
+        selectedProduct: {}
       }
     default:
       return state;

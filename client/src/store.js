@@ -4,6 +4,7 @@ import rootReducer from './reducers';
 import productsSaga from './sagas/products';
 import addProductSaga from './sagas/addProduct';
 import updateProductSaga from './sagas/updateProduct';
+import productSaga from './sagas/product';
 
 const logger = store => next => action => {
   console.group(action.type)
@@ -27,5 +28,6 @@ let store = createStore(
 sagaMiddleware.run(productsSaga);
 sagaMiddleware.run(addProductSaga);
 sagaMiddleware.run(updateProductSaga);
+sagaMiddleware.run(productSaga);
 
 export default store;

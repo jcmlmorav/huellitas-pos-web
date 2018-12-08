@@ -10,6 +10,14 @@ class ProductsApi {
     });
   }
 
+  static get(term) {
+    return fetch(`${ ENDPOINTS.products }/${ term }`).then(response => {
+      return response.json();
+    }).catch(error => {
+      return error;
+    });
+  }
+
   static add(product) {
     return fetch(
       ENDPOINTS.products,

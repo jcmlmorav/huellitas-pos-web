@@ -25,11 +25,12 @@ class ProductInfo extends Component {
     super(props);
 
     this.state = {
-      isOpen: true,
+      isOpen: false,
       description: '',
       price: 0,
       quantity: 0,
-      discount: 0
+      discount: 0,
+      isEditing: false
     };
 
     const { dispatch } = props;
@@ -41,27 +42,38 @@ class ProductInfo extends Component {
     });
   }
 
-  componentDidMount() {
-    document.getElementById('description').focus();
-
-    const { product } = this.props;
-
-    if(product !== undefined) {
-      this.setState({
-        description: product.description,
-        price: product.price,
-        quantity: product.quantity,
-        discount: product.discount
-      });
-    }
-  }
-
   static getDerivedStateFromProps(props, state) {
-    if( Object.keys(props.createdProduct).length || Object.keys(props.updatedProduct).length ) {
+    if(
+      (Object.keys(props.createdProduct).length || Object.keys(props.updatedProduct).length) &&
+      props.isOpen )
+    {
       props.onSubmit();
+      return {
+        ...state,
+        description: '',
+        price: 0,
+        quantity: 0,
+        discount: 0,
+        isEditing: false
+      }
     }
 
-    return state;
+    if(Object.keys(props.product).length && !state.isEditing) {
+      return {
+        ...state,
+        description: props.product.description,
+        price: props.product.price,
+        quantity: props.product.quantity,
+        discount: props.product.discount,
+        isOpen: props.isOpen,
+        isEditing: true
+      }
+    }
+
+    return {
+      ...state,
+      isOpen: props.isOpen
+    }
   }
 
   handleInputChange = (e) => {
@@ -71,6 +83,17 @@ class ProductInfo extends Component {
     this.setState({
       [name]: value
     });
+  }
+
+  handleCancel = () => {
+    this.setState({
+      description: '',
+      price: 0,
+      quantity: 0,
+      discount: 0,
+      isEditing: false
+    });
+    this.props.toggle();
   }
 
   handleSubmit = (e) => {
@@ -139,7 +162,7 @@ class ProductInfo extends Component {
     }
 
     return (
-      <Modal isOpen={ this.state.isOpen }>
+      <Modal toggle={ this.props.toggle } isOpen={ this.state.isOpen }>
         <ModalHeader>Información de producto</ModalHeader>
         <ModalBody>
           <Form>
@@ -181,7 +204,7 @@ class ProductInfo extends Component {
           }
         </ModalBody>
         <ModalFooter>
-          <Button color="secondary" onClick={ this.props.toggle } outline tabIndex="-1">Cancelar</Button>
+          <Button color="secondary" onClick={ this.handleCancel } outline tabIndex="-1">Cancelar</Button>
           <Button color="primary" tabIndex="4" onClick={ this.handleSubmit } type="submit">Guardar</Button>
         </ModalFooter>
       </Modal>
