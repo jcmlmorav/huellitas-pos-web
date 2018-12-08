@@ -39,3 +39,8 @@ export const cleanSelectedProduct = () => ({
 export const cleanSelectedProducts = () => ({
   type: TYPES.CLEAN_SELECTED_PRODUCTS
 });
+
+export const setSelectedProduct = (product) => ({
+  type: TYPES.SET_SELECTED_PRODUCT,
+  payload: product
+});

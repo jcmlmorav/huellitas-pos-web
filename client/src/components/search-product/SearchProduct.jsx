@@ -49,6 +49,7 @@ class SearchProduct extends Component {
     }
 
     if(props.selectedProducts.length && Object.keys(props.selectedProduct).length === 0) {
+      derivedState.barcode = '';
       derivedState.productSelectorIsOpen = true;
       derivedState.productInfoIsOpen = false;
     }
@@ -165,8 +166,23 @@ class SearchProduct extends Component {
               </Row>
             </FormGroup>
           </Form>
-          <ProductInfo isOpen={productInfoIsOpen} toggle={ this.toggleProductInfo } barcode={ barcode } onSubmit={ this.handleProductInfoSubmit } product={ selectedProduct } mode={ mode } error={ error } />
-          <ProductsSelector isOpen={productSelectorIsOpen} products={ selectedProducts } onClose={ this.toggleProductsSelector } handleProductSelected={ this.handleProductSelected } />
+
+          <ProductInfo
+            isOpen={productInfoIsOpen}
+            toggle={ this.toggleProductInfo }
+            barcode={ barcode || selectedProduct.barcode }
+            onSubmit={ this.handleProductInfoSubmit }
+            product={ selectedProduct }
+            mode={ mode }
+            error={ error }
+          />
+          
+          <ProductsSelector
+            isOpen={productSelectorIsOpen}
+            products={ selectedProducts }
+            onClose={ this.toggleProductsSelector }
+            handleProductSelected={ this.handleProductSelected }
+          />
         </Col>
       </Row>
     )

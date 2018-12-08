@@ -183,6 +183,12 @@ const inventory = (state = initState, action) => {
         ...state,
         selectedProducts: [],
       }
+    case TYPES.SET_SELECTED_PRODUCT:
+      return {
+        ...state,
+        selectedProduct: action.payload,
+        selectedProducts: []
+      }
     default:
       return state;
   }

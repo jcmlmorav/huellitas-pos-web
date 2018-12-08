@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Button, ListGroup, ListGroupItem, Modal, ModalBody, ModalHeader } from 'reactstrap';
+import { setSelectedProduct } from '../../actions/inventory';
 import CurrencyFormat from '../../utils/CurrencyFormat';
 import './styles.scss';
 
@@ -10,6 +13,10 @@ class ProductsSelector extends Component {
     this.state = {
       isOpen: false
     }
+
+    const { dispatch } = props;
+
+    this.boundActionCreators = bindActionCreators(setSelectedProduct, dispatch);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -24,7 +31,8 @@ class ProductsSelector extends Component {
   }
 
   handleProductSelected(product) {
-    /* this.props.handleProductSelected(product); */
+    const { dispatch } = this.props;
+    dispatch(setSelectedProduct(product));
   }
 
   render() {
@@ -53,4 +61,4 @@ class ProductsSelector extends Component {
   }
 }
 
-export default ProductsSelector;
+export default connect()(ProductsSelector);
