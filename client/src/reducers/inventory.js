@@ -176,7 +176,12 @@ const inventory = (state = initState, action) => {
     case TYPES.CLEAN_SELECTED_PRODUCT:
       return {
         ...state,
-        selectedProduct: {}
+        selectedProduct: {},
+      }
+    case TYPES.CLEAN_SELECTED_PRODUCTS:
+      return {
+        ...state,
+        selectedProducts: [],
       }
     default:
       return state;

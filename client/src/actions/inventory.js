@@ -35,3 +35,7 @@ export const updateProduct = (product) => ({
 export const cleanSelectedProduct = () => ({
   type: TYPES.CLEAN_SELECTED_PRODUCT
 });
+
+export const cleanSelectedProducts = () => ({
+  type: TYPES.CLEAN_SELECTED_PRODUCTS
+});

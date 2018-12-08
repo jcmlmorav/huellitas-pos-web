@@ -30,7 +30,7 @@ class ProductsSelector extends Component {
   render() {
     const { products } = this.props;
     return (
-      <Modal isOpen={ this.state.isOpen }>
+      <Modal toggle={ this.toggle } isOpen={ this.state.isOpen }>
         <ModalHeader toggle={ this.toggle }>Seleccione el producto</ModalHeader>
         <ModalBody>
           <ListGroup>
@@ -42,9 +42,7 @@ class ProductsSelector extends Component {
                     <br />
                     { CurrencyFormat(product.price) }
                   </div>
-                  <Button key={ product.id } color="primary" onClick={ () => { this.handleProductSelected(product) } }>
-                    Agregar
-                  </Button>
+                  <Button key={ product.id } color="primary" onClick={ () => { this.handleProductSelected(product) } }>Elegir</Button>
                 </div>
               </ListGroupItem>
             )) }

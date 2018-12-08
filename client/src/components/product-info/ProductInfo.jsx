@@ -162,8 +162,8 @@ class ProductInfo extends Component {
     }
 
     return (
-      <Modal toggle={ this.props.toggle } isOpen={ this.state.isOpen }>
-        <ModalHeader>Información de producto</ModalHeader>
+      <Modal toggle={ this.handleCancel } isOpen={ this.state.isOpen }>
+        <ModalHeader toggle={ this.handleCancel }>Información de producto</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>

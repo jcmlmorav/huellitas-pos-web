@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getProduct, cleanSelectedProduct } from '../../actions/inventory';
+import { getProduct, cleanSelectedProduct, cleanSelectedProducts } from '../../actions/inventory';
 import { addProductToBilling } from '../../actions/billing';
 import { ProductInfo, ProductsSelector } from '../../components';
 import {
@@ -31,7 +31,8 @@ class SearchProduct extends Component {
     this.boundActionCreators = bindActionCreators({
       getProduct: dispatch,
       addProductToBilling: dispatch,
-      cleanSelectedProduct: dispatch
+      cleanSelectedProduct: dispatch,
+      cleanSelectedProducts: dispatch
     });
   }
   
@@ -42,41 +43,25 @@ class SearchProduct extends Component {
   static getDerivedStateFromProps(props, state) {
     let derivedState = { ...state };
 
+    if(props.selectedProducts.length === 0 && Object.keys(props.selectedProduct).length) {
+      derivedState.productSelectorIsOpen = false;
+      derivedState.productInfoIsOpen = true;
+    }
+
+    if(props.selectedProducts.length && Object.keys(props.selectedProduct).length === 0) {
+      derivedState.productSelectorIsOpen = true;
+      derivedState.productInfoIsOpen = false;
+    }
+    
+    if(derivedState.productInfoIsOpen) {
+      derivedState.productSelectorIsOpen = false;
+    }
+
+    if(derivedState.productSelectorIsOpen) {
+      derivedState.productInfoIsOpen = false;
+    }
+
     return derivedState;
-    /* return {
-      ...state,
-      selectedProduct: props.selectedProduct,
-      selectedProducts: props.selectedProducts
-    }; */
-
-    /* if( props.selectedProducts.length && !Object.keys(state.selectedProduct).length ) {
-      newState.productSelectorIsOpen = true;
-    }
-
-    if( Object.keys(state.selectedProduct).length ) {
-      newState.selectedProducts = [];
-      newState.barcode = state.selectedProduct.barcode;
-      newState.selectedProduct = state.selectedProduct;
-      newState.productSelectorIsOpen = false;
-    } */
-
-    /* if(selectedProducts.length) {
-      showProductsSelector = true;
-    } else {
-      showProductInfo = true;
-    } */
-
-    /* if(productInfoIsOpen &&
-      !productSelectorIsOpen &&
-      ((selectedProducts.length === 0 && Object.keys(selectedProduct).length > 0) ||
-      (this.formSubmited && !(products.find(product => product.barcode === barcode))))
-    ) {
-      showProductInfo = true;
-    }
-
-    if(productSelectorIsOpen && selectedProducts.length > 0) {
-      showProductsSelector = true;
-    } */
   }
 
   handleProductValue = (e) => {
@@ -109,7 +94,7 @@ class SearchProduct extends Component {
       dispatch(getProduct(barcode));
 
       if( mode === 'inventory' ) {
-        this.setState({ productInfoIsOpen: true });
+        this.setState({ productInfoIsOpen: true, productSelectorIsOpen: true });
       }
 
       if( mode === 'billing' ) {
@@ -140,6 +125,8 @@ class SearchProduct extends Component {
 
   toggleProductsSelector = () => {
     this.setState(prevState => ({ productSelectorIsOpen: !prevState.productSelectorIsOpen }));
+    const { dispatch } = this.props;
+    dispatch(cleanSelectedProducts());
   }
 
   handleProductSelected = (product) => {
