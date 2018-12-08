@@ -45,7 +45,11 @@ class SearchProduct extends Component {
 
     if(props.selectedProducts.length === 0 && Object.keys(props.selectedProduct).length) {
       derivedState.productSelectorIsOpen = false;
-      derivedState.productInfoIsOpen = true;
+      if(props.mode === 'billing') {
+        derivedState.productInfoIsOpen = false;
+      } else {
+        derivedState.productInfoIsOpen = true;
+      }
     }
 
     if(props.selectedProducts.length && Object.keys(props.selectedProduct).length === 0) {
@@ -178,6 +182,7 @@ class SearchProduct extends Component {
           />
           
           <ProductsSelector
+            mode={ mode }
             isOpen={productSelectorIsOpen}
             products={ selectedProducts }
             onClose={ this.toggleProductsSelector }

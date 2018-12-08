@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, ListGroup, ListGroupItem, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { setSelectedProduct } from '../../actions/inventory';
+import { addProductToBilling } from '../../actions/billing';
 import CurrencyFormat from '../../utils/CurrencyFormat';
 import './styles.scss';
 
@@ -16,7 +17,10 @@ class ProductsSelector extends Component {
 
     const { dispatch } = props;
 
-    this.boundActionCreators = bindActionCreators(setSelectedProduct, dispatch);
+    this.boundActionCreators = bindActionCreators({
+      setSelectedProduct: dispatch,
+      addProductToBilling: dispatch
+    });
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -33,6 +37,10 @@ class ProductsSelector extends Component {
   handleProductSelected(product) {
     const { dispatch } = this.props;
     dispatch(setSelectedProduct(product));
+
+    if(this.props.mode === 'billing') {
+      dispatch(addProductToBilling(product));
+    }
   }
 
   render() {
