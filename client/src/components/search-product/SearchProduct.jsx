@@ -31,6 +31,7 @@ class SearchProduct extends Component {
     this.boundActionCreators = bindActionCreators({
       getProduct: dispatch,
       addProductToBilling: dispatch,
+      cleanSelectedProduct: dispatch
     });
   }
   

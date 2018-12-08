@@ -58,7 +58,7 @@ class ProductInfo extends Component {
       }
     }
 
-    if(Object.keys(props.product).length && !state.isEditing) {
+    if(Object.keys(props.product).length && !state.isEditing && props.mode !== 'billing') {
       return {
         ...state,
         description: props.product.description,
