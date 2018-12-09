@@ -173,7 +173,7 @@ class ProductInfo extends Component {
             </FormGroup>
             <FormGroup>
               <Label for="description">Descripción</Label>
-              <Input id="description" maxLength="40" name="description" onChange={ this.handleInputChange } type="text" tabIndex="1" value={ description } invalid={ !(descriptionError === '') } />
+              <Input id="description" maxLength="30" name="description" onChange={ this.handleInputChange } type="text" tabIndex="1" value={ description } invalid={ !(descriptionError === '') } />
               { descriptionError }
             </FormGroup>
             <FormGroup>

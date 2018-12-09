@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import CurrencyFormat from '../../utils/CurrencyFormat';
+import { addBilling } from '../../actions/billing';
 import {
   Button,
   Card,
@@ -27,6 +29,10 @@ class CheckoutBilling extends Component {
       currentChange: null,
       isOpen: false
     };
+
+    const { dispatch } = props;
+
+    this.boundActionCreators = bindActionCreators(addBilling, dispatch);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -58,6 +64,13 @@ class CheckoutBilling extends Component {
     });
   }
 
+  handleSubmit = () => {
+    const { billing, dispatch } = this.props;
+
+    dispatch(addBilling(billing));
+    this.props.toggle();
+  }
+
   render() {
     const { billing } = this.props;
     const { currentChange, currentMoney, isOpen } = this.state;
@@ -68,7 +81,7 @@ class CheckoutBilling extends Component {
         <ModalHeader>Finalizar compra</ModalHeader>
         <ModalBody>
           <Form>
-            <FormGroup>
+            {/* <FormGroup>
               <Label for="customer">Asignar cliente</Label>
               <Input id="customer" name="customer" type="text" tabIndex="1" />
             </FormGroup>
@@ -81,7 +94,7 @@ class CheckoutBilling extends Component {
                 yolima@gmail.com
               </CardBody>
             </Card>
-            <hr />
+            <hr /> */}
             <Card>
               <CardHeader>Pago: <strong>{ CurrencyFormat(billing.total) }</strong></CardHeader>
               <CardBody>
@@ -105,7 +118,7 @@ class CheckoutBilling extends Component {
         </ModalBody>
         <ModalFooter>
           <Button color="secondary" onClick={ this.toggle } outline tabIndex="-1">Volver</Button>
-          <Button color="primary" disabled={ !checkoutDisabled } tabIndex="-1">Finalizar</Button>
+          <Button color="primary" onClick={ this.handleSubmit } disabled={ !checkoutDisabled } tabIndex="-1">Finalizar</Button>
         </ModalFooter>
       </Modal>
     )

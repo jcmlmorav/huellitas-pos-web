@@ -4,7 +4,7 @@ import { Button, Col, Row } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getProducts } from '../../actions/inventory';
-import { getBilling } from '../../actions/billing';
+import { getBilling, cleanBilling } from '../../actions/billing';
 import './styles.scss';
 
 class Billing extends Component {
@@ -17,7 +17,8 @@ class Billing extends Component {
 
     this.boundActionCreators = bindActionCreators({
       getBilling: dispatch,
-      getProducts: dispatch
+      getProducts: dispatch,
+      cleanBilling: dispatch
     });
   }
 
@@ -30,6 +31,12 @@ class Billing extends Component {
 
   toggleCheckoutBilling = () => {
     this.setState(prevState => ({ checkoutBillingIsOpen: !prevState.checkoutBillingIsOpen }));
+  }
+
+  handleCancelBilling = () => {
+    let { dispatch } = this.props;
+
+    dispatch(cleanBilling());
   }
 
   render() {
@@ -50,7 +57,7 @@ class Billing extends Component {
               <BillingStatus billing={ billing } />
               <div className="billingButtons">
                 <Button block color="primary" disabled={ !billingDisabled } onClick={ this.toggleCheckoutBilling } tabIndex="-1">Finalizar compra</Button>
-                <Button block color="secondary" disabled={ !billingDisabled } outline tabIndex="-1">Cancelar compra</Button>
+                <Button block color="secondary" disabled={ !billingDisabled } onClick={ this.handleCancelBilling } outline tabIndex="-1">Cancelar compra</Button>
               </div>
             </div>
           </Col>

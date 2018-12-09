@@ -40,10 +40,35 @@ class BillingProducts extends Component {
                 { products.map((product, index) => (
                   <tr key={ index }>
                     <th scope="row">{ product.barcode }</th>
-                    <td>{ product.description }</td>
+                    <td>
+                      { product.description }
+                      { product.discount > 0 &&
+                        <div>
+                          <small>Descuento: { product.discount }%</small>
+                        </div>
+                      }
+                    </td>
                     <td>{ product.quantity }</td>
-                    <td>{ CurrencyFormat(product.price) }</td>
-                    <td>{ CurrencyFormat(product.quantity * product.price) }</td>
+                    <td>
+                      { product.discount > 0 ?
+                        (<div>
+                          <small><strike>{ CurrencyFormat(product.price) }</strike></small>
+                          <br />
+                          { CurrencyFormat((product.price * ((100 - product.discount) / 100)).toFixed(2)) }
+                        </div>) :
+                        (CurrencyFormat(product.price))
+                      }
+                    </td>
+                    <td>
+                      { product.discount > 0 ?
+                        (<div>
+                          <small><strike>{ CurrencyFormat(product.quantity * product.price) }</strike></small>
+                          <br />
+                          { CurrencyFormat(((product.quantity * product.price) * ((100 - product.discount) / 100)).toFixed(2)) }
+                        </div>) :
+                        (CurrencyFormat(product.quantity * product.price))
+                      }
+                    </td>
                   </tr>
                 )) }
               </tbody>

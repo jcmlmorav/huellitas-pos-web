@@ -24,6 +24,7 @@ class SearchProduct extends Component {
       productInfoIsOpen: false,
       productSelectorIsOpen: false,
       barcode: null,
+      initialized: false
     };
 
     const { dispatch } = props;
@@ -38,35 +39,41 @@ class SearchProduct extends Component {
   
   componentDidMount() {
     document.getElementById('searchProduct').focus();
+    this.setState({ initialized: true });
+    this.initialized = true;
   }
 
   static getDerivedStateFromProps(props, state) {
-    let derivedState = { ...state };
+    if(state.initialized) {
+      let derivedState = { ...state };
 
-    if(props.selectedProducts.length === 0 && Object.keys(props.selectedProduct).length) {
-      derivedState.productSelectorIsOpen = false;
-      if(props.mode === 'billing') {
-        derivedState.productInfoIsOpen = false;
-      } else {
-        derivedState.productInfoIsOpen = true;
+      if(props.selectedProducts.length === 0 && Object.keys(props.selectedProduct).length) {
+        derivedState.productSelectorIsOpen = false;
+        if(props.mode === 'billing') {
+          derivedState.productInfoIsOpen = false;
+        } else {
+          derivedState.productInfoIsOpen = true;
+        }
       }
+
+      if(props.selectedProducts.length && Object.keys(props.selectedProduct).length === 0) {
+        derivedState.barcode = '';
+        derivedState.productSelectorIsOpen = true;
+        derivedState.productInfoIsOpen = false;
+      }
+      
+      if(derivedState.productInfoIsOpen) {
+        derivedState.productSelectorIsOpen = false;
+      }
+
+      if(derivedState.productSelectorIsOpen) {
+        derivedState.productInfoIsOpen = false;
+      }
+
+      return derivedState;
     }
 
-    if(props.selectedProducts.length && Object.keys(props.selectedProduct).length === 0) {
-      derivedState.barcode = '';
-      derivedState.productSelectorIsOpen = true;
-      derivedState.productInfoIsOpen = false;
-    }
-    
-    if(derivedState.productInfoIsOpen) {
-      derivedState.productSelectorIsOpen = false;
-    }
-
-    if(derivedState.productSelectorIsOpen) {
-      derivedState.productInfoIsOpen = false;
-    }
-
-    return derivedState;
+    return state;
   }
 
   handleProductValue = (e) => {
