@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
-import { Alert, Col, Table, Row } from 'reactstrap';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Alert, Button, Col, Table, Row } from 'reactstrap';
 import CurrencyFormat from '../../utils/CurrencyFormat';
+import { removeProductFromBilling } from '../../actions/billing';
 
 class BillingProducts extends Component {
   constructor(props) {
     super(props);
 
     this.state = { products: [] };
+
+    const { dispatch } = props;
+
+    this.boundActionCreators = bindActionCreators(removeProductFromBilling, dispatch);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -16,6 +23,11 @@ class BillingProducts extends Component {
       ...state,
       products
     }
+  }
+
+  removeProduct(product) {
+    const{ dispatch } = this.props;
+    dispatch(removeProductFromBilling(product));
   }
 
   render() {
@@ -34,6 +46,7 @@ class BillingProducts extends Component {
                   <th>Cantidad</th>
                   <th>Precio unitario</th>
                   <th>Precio total</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -69,6 +82,7 @@ class BillingProducts extends Component {
                         (CurrencyFormat(product.quantity * product.price))
                       }
                     </td>
+                    <td><Button outline onClick={ () => this.removeProduct(product) } color="danger">Eliminar</Button></td>
                   </tr>
                 )) }
               </tbody>
@@ -93,4 +107,8 @@ class BillingProducts extends Component {
   }
 }
 
-export default BillingProducts;
+const mapStateToProps = state => ({
+  products: state.billings.billing.products
+});
+
+export default connect(mapStateToProps)(BillingProducts);

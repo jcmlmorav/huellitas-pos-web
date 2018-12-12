@@ -50,7 +50,7 @@ class Billing extends Component {
         <SearchProduct titleText="Agregar producto" mode="billing" />
         <Row>
           <Col lg="9">
-            <BillingProducts products={ billing.products } />
+            <BillingProducts />
           </Col>
           <Col lg="3">
             <div className="stickyElement">

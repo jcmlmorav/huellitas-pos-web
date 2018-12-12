@@ -25,3 +25,8 @@ export const addBilling = (billing) => ({
 export const cleanBilling = () => ({
   type: TYPES.CLEAN_BILLING
 });
+
+export const removeProductFromBilling = (product) => ({
+  type: TYPES.REMOVE_PRODUCT_FROM_BILLING,
+  payload: product
+});
