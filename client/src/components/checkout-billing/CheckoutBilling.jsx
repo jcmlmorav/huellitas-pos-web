@@ -74,7 +74,7 @@ class CheckoutBilling extends Component {
   render() {
     const { billing } = this.props;
     const { currentChange, currentMoney, isOpen } = this.state;
-    const checkoutDisabled = currentMoney >= billing.total;
+    const checkoutDisabled = parseInt(currentMoney) >= parseInt(billing.total);
 
     return (
       <Modal isOpen={ isOpen }>

@@ -123,7 +123,7 @@ class ProductInfo extends Component {
         dispatch(addProduct(productObj));
         
         if( mode === 'billing' ) {
-          dispatch(addProductToBilling(productObj));
+          if( productObj.description !== '' ) dispatch(addProductToBilling(productObj));
         }
       }
     }

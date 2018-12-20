@@ -1,5 +1,5 @@
 import ENDPOINTS from '../constants/endpoints';
-import fetch from 'cross-fetch'
+import fetch from 'cross-fetch';
 
 class BillingsApi {
   static getAll() {

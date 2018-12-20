@@ -68,8 +68,8 @@ class Billing extends Component {
   }
 }
 
-const mapStateToprops = state => ({
+const mapStateToProps = state => ({
   billing: state.billings.billing
 });
 
-export default connect(mapStateToprops)(Billing);
+export default connect(mapStateToProps)(Billing);
