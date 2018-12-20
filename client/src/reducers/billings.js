@@ -14,6 +14,24 @@ const initState = {
 
 const billings = (state = initState, action) => {
   switch(action.type) {
+    case TYPES.GET_BILLINGS:
+      return {
+        ...state,
+        billings: []
+      }
+    case TYPES.GET_BILLINGS_SUCCEEDED:
+      return {
+        ...state,
+        billings: action.payload
+      }
+    case TYPES.GET_BILLINGS_FAILED:
+      return {
+        ...state,
+        billings: [],
+        error: {
+          failed: 'Ocurrió un problema al obtener las facturas. Intente nuevamente.'
+        }
+      }
     case TYPES.ADD_BILLING:
       return {
         ...state,

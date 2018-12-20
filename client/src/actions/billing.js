@@ -1,5 +1,7 @@
 import TYPES from '../constants/types';
 
+export const getBillings = () => ({ type: TYPES.GET_BILLINGS });
+
 export const getBilling = (billing) => ({
   type: TYPES.GET_BILLING,
   payload: billing

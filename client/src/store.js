@@ -8,6 +8,7 @@ import productSaga from './sagas/product';
 import addBilingSaga from './sagas/addBilling';
 import salesSaga from './sagas/sales';
 import salesResumeSaga from './sagas/salesResume';
+import billingsSaga from './sagas/billings';
 
 const logger = store => next => action => {
   console.group(action.type)
@@ -35,5 +36,6 @@ sagaMiddleware.run(productSaga);
 sagaMiddleware.run(addBilingSaga);
 sagaMiddleware.run(salesSaga);
 sagaMiddleware.run(salesResumeSaga);
+sagaMiddleware.run(billingsSaga);
 
 export default store;

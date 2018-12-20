@@ -3,7 +3,7 @@ import fetch from 'cross-fetch';
 
 class BillingsApi {
   static getAll() {
-    return fetch(ENDPOINTS.bilings).then(response => {
+    return fetch(ENDPOINTS.billings).then(response => {
       return response.json();
     }).catch(error => {
       return error;
