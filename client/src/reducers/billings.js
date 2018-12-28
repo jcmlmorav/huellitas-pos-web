@@ -9,7 +9,8 @@ const initState = {
     total: 0,
     products_quantity: 0,
     products: []
-  }
+  },
+  lastBilling: {}
 };
 
 const billings = (state = initState, action) => {
@@ -30,6 +31,24 @@ const billings = (state = initState, action) => {
         billings: [],
         error: {
           failed: 'Ocurrió un problema al obtener las facturas. Intente nuevamente.'
+        }
+      }
+    case TYPES.GET_LAST_BILLING:
+      return {
+        ...state,
+        lastBilling: {}
+      }
+    case TYPES.GET_LAST_BILLING_SUCCEEDED:
+      return {
+        ...state,
+        lastBilling: action.payload
+      }
+    case TYPES.GET_LAST_BILLING_FAILED:
+      return {
+        ...state,
+        lastBilling: {},
+        error: {
+          failed: 'Ocurrió un problema al obtener la última factura. Intente nuevamente.'
         }
       }
     case TYPES.ADD_BILLING:

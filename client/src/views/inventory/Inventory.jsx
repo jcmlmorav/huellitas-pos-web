@@ -14,7 +14,7 @@ class Inventory extends Component {
   }
 
   componentDidMount() {
-    let { dispatch } = this.props;
+    const { dispatch } = this.props;
     dispatch(getProducts());
   }
 

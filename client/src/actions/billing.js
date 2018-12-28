@@ -7,6 +7,10 @@ export const getBilling = (billing) => ({
   payload: billing
 });
 
+export const getLastBilling = () => ({
+  type: TYPES.GET_LAST_BILLING
+});
+
 export const addProductToBilling = (product) => ({
   type: TYPES.ADD_PRODUCT_TO_BILLING,
   payload: {

@@ -1,5 +1,8 @@
 @media print {
   .hide { display:none }
-}
 
-@page { size: auto;  margin: 5mm; }
+  @page {
+    size: 3.14961in auto;
+    margin: 5mm;
+  }
+}

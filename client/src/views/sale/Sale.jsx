@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Alert, Table } from 'reactstrap';
 import CurrencyFormat from '../../utils/CurrencyFormat';
 import './styles.scss';
+import { getLastBilling } from '../../actions/billing';
 
 class Sale extends Component {
   constructor(props) {
@@ -11,18 +13,21 @@ class Sale extends Component {
     this.state = {
       data: {}
     }
+
+    const { dispatch } = props;
+
+    this.boundActionCreators = bindActionCreators(getLastBilling, dispatch);
   }
 
   componentDidMount() {
-    const { createdBilling } = this.props;
-
-    debugger;
+    const { dispatch } = this.props;
+    dispatch(getLastBilling());
   }
 
   render() {
-    const { createdBilling } = this.props;
+    const { lastBilling } = this.props;
 
-    if( Object.keys(createdBilling).length === 0 ) {
+    if( Object.keys(lastBilling).length === 0 ) {
       return (
         <div>
           <h1 className="text-center">Compra</h1>
@@ -43,7 +48,7 @@ class Sale extends Component {
           <h5>Carrera 55A # 57A - 46</h5>
           <h6>www.tiendacolmillitos.com</h6>
         </p>
-        <p className="text-center">Fecha: { createdBilling.created_at }</p>
+        <p className="text-center">Fecha: { lastBilling.created_at }</p>
         <br />
         <Table size="sm">
             <thead>
@@ -55,7 +60,7 @@ class Sale extends Component {
               </tr>
             </thead>
             <tbody>
-              { createdBilling.products.map(product => (
+              { lastBilling.products.map(product => (
                 <tr>
                   <td>
                     { product.description }
@@ -80,7 +85,7 @@ class Sale extends Component {
             <thead>
               <tr>
                 <th>Total</th>
-                <th>{ CurrencyFormat(createdBilling.total) }</th>
+                <th>{ CurrencyFormat(lastBilling.total) }</th>
               </tr>
             </thead>
           </Table>
@@ -91,7 +96,7 @@ class Sale extends Component {
 }
 
 const mapStateToProps = state => ({
-  createdBilling: state.billings.createdBilling
+  lastBilling: state.billings.lastBilling
 });
 
 export default connect(mapStateToProps)(Sale);
