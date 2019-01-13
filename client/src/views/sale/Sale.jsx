@@ -40,28 +40,21 @@ class Sale extends Component {
 
     return (
       <div>
-        <h1 className="text-center hide">Compra</h1>
-        <hr className="hide" />
-        <p className="text-center">
-          <h3>COLMILLITOS</h3>
-          <h4>NIT 1038769396</h4>
-          <h5>Carrera 55A # 57A - 46</h5>
-          <h6>www.tiendacolmillitos.com</h6>
-        </p>
-        <p className="text-center">Fecha: { lastBilling.created_at }</p>
-        <br />
-        <Table size="sm">
-            <thead>
-              <tr>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Precio</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              { lastBilling.products.map(product => (
+        <h3>COLMILLITOS</h3>
+        <h4>colmillitos.pet</h4>
+        <h6>Carrera 55A # 57A - 46</h6>
+        <h6>Itaguí</h6>
+        <hr />
+        <h6>Fecha: { lastBilling.created_at }</h6>
+        <table>
+          <tr>
+            <th>Cant.</th>
+            <th>Producto</th>
+            <th>Total</th>
+          </tr>
+          { lastBilling.products.map(product => (
                 <tr>
+                  <td>{ product.quantity }</td>
                   <td>
                     { product.description }
                     { product.discount > 0 && 
@@ -70,26 +63,14 @@ class Sale extends Component {
                       </>
                     }
                   </td>
-                  <td>{ product.quantity }</td>
-                  <td>
-                    { product.discount > 0 ? CurrencyFormat((1 - (product.discount / 100)) * product.price) : CurrencyFormat(product.price) }
-                  </td>
                   <td>
                     { product.discount > 0 ? CurrencyFormat(((1 - (product.discount / 100)) * product.price) * product.quantity) : CurrencyFormat(product.price * product.quantity) }
                   </td>
                 </tr>
               )) }
-            </tbody>
-          </Table>
-          <Table>
-            <thead>
-              <tr>
-                <th>Total</th>
-                <th>{ CurrencyFormat(lastBilling.total) }</th>
-              </tr>
-            </thead>
-          </Table>
-          <p><strong>NOTAS: </strong><sup>xx%</sup> Descuento aplicado al producto</p>
+        </table>
+        <hr/>
+        <p>Total: { CurrencyFormat(lastBilling.total) }</p>
       </div>
     );
   }

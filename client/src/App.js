@@ -19,22 +19,25 @@ class App extends Component {
             <NavbarBrand href="/" tabIndex="-1">COLMILLITOS</NavbarBrand>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink className="menu__item" tabIndex="-1" to="/">Facturación</NavLink>
+                <NavLink className="menu__item" tabIndex="-1" to="/">Nueva venta!</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink className="menu__item" tabIndex="-1" to="/compra">Última compra</NavLink>
               </NavItem>
               {/* <NavItem>
                 <NavLink className="menu__item" tabIndex="-1" to="/clientes">Clientes</NavLink>
               </NavItem> */}
               <NavItem>
+                <NavLink className="menu__item" tabIndex="-1" to="/caja">Caja</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink className="menu__item" tabIndex="-1" to="/facturas">Facturas</NavLink>
+              </NavItem>
+              <NavItem>
                 <NavLink className="menu__item" tabIndex="-1" to="/inventario">Inventario</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className="menu__item" tabIndex="-1" to="/caja">Caja</NavLink>
-              </NavItem>
-              {/* <NavItem>
                 <NavLink className="menu__item" tabIndex="-1" to="/finanzas">Finanzas</NavLink>
-              </NavItem> */}
-              <NavItem>
-                <NavLink className="menu__item" tabIndex="-1" to="/compra">Última compra</NavLink>
               </NavItem>
             </Nav>
           </Navbar>

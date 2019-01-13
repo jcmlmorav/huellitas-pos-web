@@ -1,8 +1,8 @@
 @media print {
-  .hide { display:none }
-
-  @page {
-    size: 3.14961in auto;
-    margin: 5mm;
-  }
+  .container { max-width: 380px !important; width: 380px !important; }
+  body { font-family: arial !important; color: black !important; }
+  h1, h2, h3, h4, h5, h6 { text-align: center; max-width: 380px; }
+  hr { width: 380px; float: left; border-top: 1px dashed black !important; }
+  p { max-width: 380px; }
+  .hide { display: none }
 }
