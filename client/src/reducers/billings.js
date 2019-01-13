@@ -134,8 +134,8 @@ const billings = (state = initState, action) => {
       
       addBillingState.billing.products.forEach(product => {
         addTotal = addTotal + (product.price * product.quantity) * (1 - (product.discount / 100));
-        addIva = (addTotal + (product.price * product.quantity) * (1 - (product.discount / 100))) * 0.19;
-        addSubtotal = (addTotal + (product.price * product.quantity) * (1 - (product.discount / 100))) * 0.81;
+        addIva = (addIva + (product.price * product.quantity) * (1 - (product.discount / 100))) * 0.19;
+        addSubtotal = (addSubtotal + (product.price * product.quantity) * (1 - (product.discount / 100))) * 0.81;
         addProducts_quantity = addProducts_quantity + product.quantity;
       });
 
