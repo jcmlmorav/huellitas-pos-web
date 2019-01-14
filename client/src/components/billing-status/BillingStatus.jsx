@@ -13,17 +13,17 @@ class BillingStatus extends Component {
             <CardTitle>Balance actual</CardTitle>
             <Table>
               <tbody>
-                {/* <tr>
-                  <th scope="row"><strong>Subtotal</strong></th>
-                  <td>{ CurrencyFormat(billing.subtotal) }</td>
+                <tr>
+                  <td>Subtotal</td>
+                  <td>{ CurrencyFormat(billing.brute) }</td>
                 </tr>
                 <tr>
-                  <th scope="row"><strong>IVA</strong></th>
-                  <td>{ CurrencyFormat(billing.iva) }</td>
-                </tr> */}
+                  <td>Descuento</td>
+                  <td>-{ CurrencyFormat(billing.discount) }</td>
+                </tr>
                 <tr>
                   <th scope="row"><strong>Total</strong></th>
-                  <td>{ CurrencyFormat(billing.total) }</td>
+                  <th scope="row">{ CurrencyFormat(billing.total) }</th>
                 </tr>
               </tbody>
             </Table>

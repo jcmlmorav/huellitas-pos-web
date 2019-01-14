@@ -6,6 +6,8 @@ const initState = {
   billing: {
     subtotal: 0,
     iva: 0,
+    brute: 0,
+    discount: 0,
     total: 0,
     products_quantity: 0,
     products: []
@@ -129,12 +131,16 @@ const billings = (state = initState, action) => {
 
       let addTotal = 0,
           addIva = 0,
+          addBrute = 0,
+          addDiscount = 0,
           addSubtotal = 0,
           addProducts_quantity = 0;
       
       addBillingState.billing.products.forEach(product => {
         addTotal = addTotal + (product.price * product.quantity) * (1 - (product.discount / 100));
         addIva = (addIva + (product.price * product.quantity) * (1 - (product.discount / 100))) * 0.19;
+        addBrute = (addBrute + (product.price * product.quantity));
+        addDiscount = (addDiscount + ((product.price * product.quantity) * (product.discount / 100)));
         addSubtotal = (addSubtotal + (product.price * product.quantity) * (1 - (product.discount / 100))) * 0.81;
         addProducts_quantity = addProducts_quantity + product.quantity;
       });
@@ -145,6 +151,8 @@ const billings = (state = initState, action) => {
           ...addBillingState.billing,
           total: addTotal.toFixed(2),
           iva: addIva.toFixed(2),
+          brute: addBrute.toFixed(2),
+          discount: addDiscount.toFixed(2),
           subtotal: addSubtotal.toFixed(2),
           products_quantity: addProducts_quantity
         }
@@ -154,6 +162,8 @@ const billings = (state = initState, action) => {
     case TYPES.REMOVE_PRODUCT_FROM_BILLING:
       let removeTotal = 0,
           removeIva = 0,
+          removeBrute = 0,
+          removeDiscount = 0,
           removeSubtotal = 0,
           removeProducts_quantity = 0;
       
@@ -168,6 +178,8 @@ const billings = (state = initState, action) => {
       removeBillingsState.billing.products.forEach(product => {
         removeTotal = removeTotal + (product.price * product.quantity) * (1 - (product.discount / 100));
         removeIva = (removeIva + (product.price * product.quantity) * (1 - (product.discount / 100))) * 0.19;
+        removeBrute = (removeBrute + (product.price * product.quantity));
+        removeDiscount = (removeDiscount + ((product.price * product.quantity) * (product.discount / 100)));
         removeSubtotal = (removeSubtotal + (product.price * product.quantity) * (1 - (product.discount / 100))) * 0.81;
         removeProducts_quantity = removeProducts_quantity + product.quantity;
       });
@@ -178,6 +190,8 @@ const billings = (state = initState, action) => {
           ...removeBillingsState.billing,
           total: removeTotal.toFixed(2),
           iva: removeIva.toFixed(2),
+          brute: removeBrute.toFixed(2),
+          discount: removeDiscount.toFixed(2),
           subtotal: removeSubtotal.toFixed(2),
           products_quantity: removeProducts_quantity
         }

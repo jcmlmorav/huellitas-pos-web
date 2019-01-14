@@ -24,6 +24,10 @@ class Sale extends Component {
     dispatch(getLastBilling());
   }
 
+  print() {
+    window.print();
+  }
+
   render() {
     const { lastBilling } = this.props;
 
@@ -40,6 +44,8 @@ class Sale extends Component {
 
     return (
       <div>
+        <button className="printBtn hide" onClick={this.print}>Imprimir</button>
+        <div class="printing">
         <h5>Tienda para mascotas</h5>
         <h3>COLMILLITOS</h3>
         <h5>www.colmillitos.pet</h5>
@@ -89,6 +95,7 @@ class Sale extends Component {
         <br /><br />
         <h6>GRACIAS POR SU COMPRA</h6>
         <h6>Visitanos en www.colmillitos.pet</h6>
+      </div>
       </div>
     );
   }

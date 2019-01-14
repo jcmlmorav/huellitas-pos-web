@@ -56,9 +56,7 @@ class BillingProducts extends Component {
                     <td>
                       { product.description }
                       { product.discount > 0 &&
-                        <div>
-                          <small>Descuento: { product.discount }%</small>
-                        </div>
+                        <sup>-{ product.discount }%</sup>
                       }
                     </td>
                     <td>{ product.quantity }</td>
@@ -82,7 +80,7 @@ class BillingProducts extends Component {
                         (CurrencyFormat(product.quantity * product.price))
                       }
                     </td>
-                    <td><Button outline onClick={ () => this.removeProduct(product) } color="danger">Eliminar</Button></td>
+                    <td><Button outline onClick={ () => this.removeProduct(product) } color="danger" tabIndex="-1">Eliminar</Button></td>
                   </tr>
                 )) }
               </tbody>
