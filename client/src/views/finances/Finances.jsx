@@ -1,8 +1,36 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Button, Card, CardBody, CardFooter, CardTitle, Col, Table, Row } from 'reactstrap';
+import { getIncomes, getExpenses, getIncomesResume, getExpensesResume } from '../../actions/finances';
+import CurrencyFormat from '../../utils/CurrencyFormat';
 
 class Finances extends Component {
+  constructor(props) {
+    super(props);
+
+    const { dispatch } = props;
+
+    this.boundActionCreators = bindActionCreators({
+      getIncomes: dispatch,
+      getExpenses: dispatch,
+      getIncomesResume: dispatch,
+      getExpensesResume: dispatch
+    });
+  }
+
+  componentDidMount() {
+    let { dispatch } = this.props;
+
+    dispatch(getIncomes());
+    dispatch(getExpenses());
+    dispatch(getIncomesResume());
+    dispatch(getExpensesResume());
+  }
+
   render() {
+    const { incomes, incomesResume, expenses, expensesResume } = this.props;
+
     return (
       <div>
         <h1 className="text-center">Finanzas</h1>
@@ -11,7 +39,7 @@ class Finances extends Component {
             <Card>
               <CardBody>
                 <CardTitle>Ingresos</CardTitle>
-                $ 1'000.0000
+                { CurrencyFormat(incomesResume.toFixed(2)) }
                 <CardFooter className="text-center">
                   <Button color="primary" outline>Registrar ingreso</Button>
                 </CardFooter>
@@ -20,9 +48,9 @@ class Finances extends Component {
           </Col>
           <Col lg="4">
             <Card>
-              <CardBody>
+              <CardBody className="text-center">
                 <CardTitle>Disponible</CardTitle>
-                $ 500.0000
+                <strong>{ CurrencyFormat(incomesResume.toFixed(2) - expensesResume.toFixed(2)) }</strong>
               </CardBody>
             </Card>
           </Col>
@@ -30,7 +58,7 @@ class Finances extends Component {
             <Card lg="6">
               <CardBody>
                 <CardTitle>Egresos</CardTitle>
-                $ 500.0000
+                { CurrencyFormat(expensesResume.toFixed(2)) }
                 <CardFooter className="text-center">
                   <Button color="secondary" outline>Registrar egreso</Button>
                 </CardFooter>
@@ -68,4 +96,11 @@ class Finances extends Component {
   }
 }
 
-export default Finances;
+const mapStateToProps = state => ({
+  incomes: state.finances.incomes,
+  incomesResume: state.finances.incomesResume,
+  expenses: state.finances.expenses,
+  expensesResume: state.finances.expensesResume
+});
+
+export default connect(mapStateToProps)(Finances);

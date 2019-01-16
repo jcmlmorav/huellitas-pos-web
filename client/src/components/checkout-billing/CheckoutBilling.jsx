@@ -66,8 +66,9 @@ class CheckoutBilling extends Component {
 
   handleSubmit = () => {
     const { billing, dispatch } = this.props;
+    const { currentMoney, currentChange } = this.state;
 
-    dispatch(addBilling(billing));
+    dispatch(addBilling(billing, currentMoney, currentChange));
     this.props.toggle();
   }
 

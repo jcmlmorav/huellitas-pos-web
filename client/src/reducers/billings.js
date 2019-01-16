@@ -66,6 +66,8 @@ const billings = (state = initState, action) => {
           subtotal: 0,
           iva: 0,
           total: 0,
+          brute: 0,
+          discount: 0,
           products_quantity: 0,
           products: []
         },
@@ -205,6 +207,8 @@ const billings = (state = initState, action) => {
           subtotal: 0,
           iva: 0,
           total: 0,
+          brute: 0,
+          discount: 0,
           products_quantity: 0,
           products: []
         }

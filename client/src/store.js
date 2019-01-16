@@ -10,6 +10,10 @@ import salesSaga from './sagas/sales';
 import salesResumeSaga from './sagas/salesResume';
 import billingsSaga from './sagas/billings';
 import lastBillingSaga from './sagas/lastBilling';
+import incomesSaga from './sagas/incomes';
+import expensesSaga from './sagas/expenses';
+import incomesResumeSaga from './sagas/incomesResume';
+import expensesResumeSaga from './sagas/expensesResume';
 
 const logger = store => next => action => {
   console.group(action.type)
@@ -39,5 +43,9 @@ sagaMiddleware.run(salesSaga);
 sagaMiddleware.run(salesResumeSaga);
 sagaMiddleware.run(billingsSaga);
 sagaMiddleware.run(lastBillingSaga);
+sagaMiddleware.run(incomesSaga);
+sagaMiddleware.run(expensesSaga);
+sagaMiddleware.run(incomesResumeSaga);
+sagaMiddleware.run(expensesResumeSaga);
 
 export default store;

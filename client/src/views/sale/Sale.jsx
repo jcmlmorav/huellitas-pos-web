@@ -10,9 +10,7 @@ class Sale extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      data: {}
-    }
+    this.state = { data: {} }
 
     const { dispatch } = props;
 
@@ -30,6 +28,8 @@ class Sale extends Component {
 
   render() {
     const { lastBilling } = this.props;
+    let discount = 0,
+        subtotal = 0;
 
     if( Object.keys(lastBilling).length === 0 ) {
       return (
@@ -53,43 +53,55 @@ class Sale extends Component {
         <h6>Carrera 55A # 57A - 46</h6>
         <h6>Teléfono: 3136398031</h6>
         <h6>Itaguí, Antioquia</h6>
-        <hr />
+        <br />
         <h6>Fecha: { lastBilling.created_at }</h6>
         <hr />
         <table>
           <tr>
             <th>&nbsp;</th>
             <th>Descripción</th>
-            <th>Valor</th>
+            <th className="priceHead">Valor</th>
           </tr>
-          { lastBilling.products.map(product => (
-                <tr>
-                  <td>{ product.pivot.quantity }x&nbsp;</td>
-                  <td>
-                    { product.description }
-                    { product.pivot.discount > 0 && 
-                      <>
-                        &nbsp;<sup>{product.pivot.discount }%</sup>
-                      </>
-                    }
-                  </td>
-                  <td>
-                    { product.pivot.discount > 0 ? CurrencyFormat(((1 - (product.pivot.discount / 100)) * product.pivot.price) * product.pivot.quantity) : CurrencyFormat(product.pivot.price * product.pivot.quantity) }
-                  </td>
-                </tr>
-              )) }
+          { lastBilling.products.map(product => {
+            discount = discount + (((product.pivot.discount / 100) * product.pivot.price) * product.pivot.quantity);
+            subtotal = subtotal + (product.pivot.price * product.pivot.quantity);
+
+            return (
+              <tr>
+                <td>{ product.pivot.quantity }x&nbsp;</td>
+                <td>
+                  { product.description } { product.description }
+                  { product.pivot.discount > 0 && 
+                    <>
+                      <br /><small>Ahorro: { CurrencyFormat((((product.pivot.discount / 100) * product.pivot.price) * product.pivot.quantity).toFixed(2)) }</small>
+                    </>
+                  }
+                </td>
+                <td className="priceColumn">
+                  { product.pivot.discount > 0 ? CurrencyFormat((((1 - (product.pivot.discount / 100)) * product.pivot.price) * product.pivot.quantity).toFixed(2)) : CurrencyFormat((product.pivot.price * product.pivot.quantity).toFixed(2)) }
+                </td>
+              </tr>
+            )
+          }) }
         </table>
         <hr/>
+        { discount > 0 && (
+          <>
+            <h6>Subtotal: { CurrencyFormat(subtotal.toFixed(2)) }</h6>
+            <h6>Ahorro: { CurrencyFormat(discount.toFixed(2)) }</h6>
+            <br />
+          </>
+        )}
         <h4>TOTAL: { CurrencyFormat(lastBilling.total) }</h4>
         <hr/>
         <table>
           <tr>
             <td>Efectivo:</td>
-            <td>$10.000</td>
+            <td>{ CurrencyFormat(lastBilling.money) }</td>
           </tr>
           <tr>
             <td>Cambio:</td>
-            <td>$1.000</td>
+            <td>{ CurrencyFormat(lastBilling.change) }</td>
           </tr>
         </table>
         <br /><br />

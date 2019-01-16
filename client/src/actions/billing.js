@@ -23,10 +23,15 @@ export const addProductToBilling = (product) => ({
   }
 });
 
-export const addBilling = (billing) => ({
-  type: TYPES.ADD_BILLING,
-  payload: billing
-});
+export const addBilling = (billing, money, change) => {
+  billing.money = money;
+  billing.change = change;
+  
+  return {
+    type: TYPES.ADD_BILLING,
+    payload: billing
+  }
+};
 
 export const cleanBilling = () => ({
   type: TYPES.CLEAN_BILLING

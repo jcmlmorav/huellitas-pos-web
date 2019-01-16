@@ -12,6 +12,8 @@
   hr { width: 380px; float: left; clear: both; border-top: 2px dashed black !important; }
   p { max-width: 380px; }
   table { clear: both; width: 380px; }
+  th.priceHead { min-width: 100px; text-align: center; }
+  td.priceColumn { text-align: right; }
 }
 
 .printBtn {

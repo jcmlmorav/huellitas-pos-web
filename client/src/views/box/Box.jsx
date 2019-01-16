@@ -36,7 +36,7 @@ class Box extends Component {
             <Card>
               <CardBody className="text-center">
                 <CardTitle>Flujo de caja</CardTitle>
-                <span>{ CurrencyFormat(salesResume) }</span>
+                <span>{ CurrencyFormat(salesResume.toFixed(2)) }</span>
               </CardBody>
             </Card>
           </Col>
