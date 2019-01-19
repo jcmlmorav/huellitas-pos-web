@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button, Card, CardBody, CardFooter, CardTitle, Col, Table, Row } from 'reactstrap';
+import { Alert, Button, Card, CardBody, CardFooter, CardTitle, Col, Table, Row } from 'reactstrap';
 import { getIncomes, getExpenses, getIncomesResume, getExpensesResume } from '../../actions/finances';
 import CurrencyFormat from '../../utils/CurrencyFormat';
 
@@ -60,7 +60,7 @@ class Finances extends Component {
                 <CardTitle>Egresos</CardTitle>
                 { CurrencyFormat(expensesResume.toFixed(2)) }
                 <CardFooter className="text-center">
-                  <Button color="secondary" outline>Registrar egreso</Button>
+                  <Button color="primary" outline>Registrar egreso</Button>
                 </CardFooter>
               </CardBody>
             </Card>
@@ -76,8 +76,20 @@ class Finances extends Component {
                   <th>Valor</th>
                   <th>Fecha</th>
                 </tr>
+                { incomes.map(income => (
+                  <tr>
+                    <td>{ income.description }</td>
+                    <td className="text-right">{ CurrencyFormat(income.income_value.toFixed(2)) }</td>
+                    <td>{ income.created_at }</td>
+                  </tr>
+                ))}
               </thead>
             </Table>
+            {( incomes.length === 0) && (
+              <Alert className="text-center" color="primary">
+                Aún no hay registros disponibles
+              </Alert>
+            )}
           </Col>
           <Col lg="6">
           <Table>
@@ -87,8 +99,20 @@ class Finances extends Component {
                   <th>Valor</th>
                   <th>Fecha</th>
                 </tr>
+                { expenses.map(expense => (
+                  <tr>
+                    <td>{ expense.description }</td>
+                    <td className="text-right">{ CurrencyFormat(expense.expense_value.toFixed(2)) }</td>
+                    <td>{ expense.created_at }</td>
+                  </tr>
+                ))}
               </thead>
             </Table>
+            {( expenses.length === 0) && (
+              <Alert className="text-center" color="primary">
+                Aún no hay registros disponibles
+              </Alert>
+            )}
           </Col>
         </Row>
       </div>

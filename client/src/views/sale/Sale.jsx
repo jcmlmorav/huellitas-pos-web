@@ -5,6 +5,7 @@ import { Alert } from 'reactstrap';
 import CurrencyFormat from '../../utils/CurrencyFormat';
 import './styles.scss';
 import { getLastBilling } from '../../actions/billing';
+import Logo from '../../assets/colmillitos-pos.jpg';
 
 class Sale extends Component {
   constructor(props) {
@@ -46,6 +47,7 @@ class Sale extends Component {
       <div>
         <button className="printBtn hide" onClick={this.print}>Imprimir</button>
         <div class="printing">
+        <img className="logo" src={Logo} alt="Logo Colmillitos" />
         <h5>Tienda para mascotas</h5>
         <h3>COLMILLITOS</h3>
         <h5>www.colmillitos.pet</h5>
