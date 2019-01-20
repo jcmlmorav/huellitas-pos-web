@@ -72,7 +72,7 @@ class Sale extends Component {
               <tr>
                 <td>{ product.pivot.quantity }x&nbsp;</td>
                 <td>
-                  { product.description } { product.description }
+                  { product.description }
                   { product.pivot.discount > 0 && 
                     <>
                       <br /><small>Ahorro: { CurrencyFormat((((product.pivot.discount / 100) * product.pivot.price) * product.pivot.quantity).toFixed(2)) }</small>

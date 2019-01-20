@@ -33,6 +33,40 @@ class FinancesApi {
       return error;
     });
   }
+
+  static addIncome(income) {
+    return fetch(
+      ENDPOINTS.incomes,
+      {
+        method: 'POST',
+        body: JSON.stringify(income),
+        headers:{
+          'Content-Type': 'application/json'
+        }
+      }
+    ).then(response => {
+      return response.json();
+    }).catch(error => {
+      return error;
+    });
+  }
+
+  static addExpense(expense) {
+    return fetch(
+      ENDPOINTS.expenses,
+      {
+        method: 'POST',
+        body: JSON.stringify(expense),
+        headers:{
+          'Content-Type': 'application/json'
+        }
+      }
+    ).then(response => {
+      return response.json();
+    }).catch(error => {
+      return error;
+    });
+  }
 }
 
 export default FinancesApi;  
