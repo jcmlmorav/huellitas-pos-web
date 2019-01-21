@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { NavLink } from "react-router-dom";
 import { Table } from 'reactstrap';
 import { getBillings } from '../../actions/billing';
 import CurrencyFormat from '../../utils/CurrencyFormat';
@@ -38,7 +39,7 @@ class Billings extends Component {
           <tbody>
             { billings.map(sale => (
               <tr>
-                <td><a href="javascript:;">Ver detalles</a></td>
+                <td><NavLink to={`/factura/${ sale.id }`}>Ver detalles</NavLink></td>
                 <td>{ CurrencyFormat(sale.total) }</td>
                 <td>{ sale.products_quantity }</td>
                 <td>{ sale.created_at }</td>

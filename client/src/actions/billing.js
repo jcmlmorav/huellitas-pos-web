@@ -7,6 +7,11 @@ export const getBilling = (billing) => ({
   payload: billing
 });
 
+export const getBillingById = (id) => ({
+  type: TYPES.GET_BILLING_BY_ID,
+  payload: id
+});
+
 export const getLastBilling = () => ({
   type: TYPES.GET_LAST_BILLING
 });

@@ -18,6 +18,14 @@ class BillingsApi {
     });
   }
 
+  static getById(id) {
+    return fetch(`${ ENDPOINTS.billings }/${ id }`).then(response => {
+      return response.json();
+    }).catch(error => {
+      return error;
+    });
+  }
+
   static getLast() {
     return fetch(`${ ENDPOINTS.billings }-last`).then(response => {
       return response.json();

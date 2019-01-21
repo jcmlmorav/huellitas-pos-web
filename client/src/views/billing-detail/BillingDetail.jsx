@@ -4,10 +4,10 @@ import { bindActionCreators } from 'redux';
 import { Alert } from 'reactstrap';
 import CurrencyFormat from '../../utils/CurrencyFormat';
 import './styles.scss';
-import { getLastBilling } from '../../actions/billing';
+import { getBillingById } from '../../actions/billing';
 import Logo from '../../assets/colmillitos-pos.jpg';
 
-class Sale extends Component {
+class BillingDetail extends Component {
   constructor(props) {
     super(props);
 
@@ -15,12 +15,12 @@ class Sale extends Component {
 
     const { dispatch } = props;
 
-    this.boundActionCreators = bindActionCreators(getLastBilling, dispatch);
+    this.boundActionCreators = bindActionCreators(getBillingById, dispatch);
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(getLastBilling());
+    const { dispatch, match } = this.props;
+    dispatch(getBillingById(match.params.id));
   }
 
   print() {
@@ -28,11 +28,11 @@ class Sale extends Component {
   }
 
   render() {
-    const { lastBilling } = this.props;
+    const { billingDetailed } = this.props;
     let discount = 0,
         subtotal = 0;
 
-    if( Object.keys(lastBilling).length === 0 ) {
+    if( Object.keys(billingDetailed).length === 0 ) {
       return (
         <div>
           <h1 className="text-center">Compra</h1>
@@ -56,7 +56,7 @@ class Sale extends Component {
         <h6>Teléfono: 3136398031</h6>
         <h6>Itaguí, Antioquia</h6>
         <br />
-        <h6>Fecha: { lastBilling.created_at }</h6>
+        <h6>Fecha: { billingDetailed.created_at }</h6>
         <hr />
         <table>
           <tr>
@@ -64,7 +64,7 @@ class Sale extends Component {
             <th>Descripción</th>
             <th className="priceHead">Valor</th>
           </tr>
-          { lastBilling.products.map(product => {
+          { billingDetailed.products.map(product => {
             discount = discount + (((product.pivot.discount / 100) * product.pivot.price) * product.pivot.quantity);
             subtotal = subtotal + (product.pivot.price * product.pivot.quantity);
 
@@ -94,16 +94,16 @@ class Sale extends Component {
             <br />
           </>
         )}
-        <h4>TOTAL: { CurrencyFormat(lastBilling.total) }</h4>
+        <h4>TOTAL: { CurrencyFormat(billingDetailed.total) }</h4>
         <hr/>
         <table>
           <tr>
             <td>Efectivo:</td>
-            <td>{ CurrencyFormat(lastBilling.money) }</td>
+            <td>{ CurrencyFormat(billingDetailed.money) }</td>
           </tr>
           <tr>
             <td>Cambio:</td>
-            <td>{ CurrencyFormat(lastBilling.change) }</td>
+            <td>{ CurrencyFormat(billingDetailed.change) }</td>
           </tr>
         </table>
         <br /><br />
@@ -116,7 +116,7 @@ class Sale extends Component {
 }
 
 const mapStateToProps = state => ({
-  lastBilling: state.billings.lastBilling
+  billingDetailed: state.billings.billingDetailed
 });
 
-export default connect(mapStateToProps)(Sale);
+export default connect(mapStateToProps)(BillingDetail);

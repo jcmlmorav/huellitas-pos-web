@@ -23,7 +23,7 @@ class SearchProduct extends Component {
       alert: null,
       productInfoIsOpen: false,
       productSelectorIsOpen: false,
-      barcode: null,
+      barcode: '',
       initialized: false
     };
 

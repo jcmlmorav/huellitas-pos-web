@@ -1,0 +1,42 @@
+.printing {
+  max-width: 380px !important;
+  width: 380px !important;
+  margin: 30px auto;
+  border: 1px solid black;
+  padding: 20px 0 10px 0;
+  box-shadow: 5px 5px 15px #ccc;
+  font-family: monospace !important;
+  color: black !important;
+  
+  h1, h2, h3, h4, h5, h6 { text-align: center; max-width: 380px; margin-bottom: 0 !important; padding-bottom: 0 !important; }
+  hr { width: 380px; float: left; clear: both; border-top: 2px dashed black !important; }
+  p { max-width: 380px; }
+  table { clear: both; width: 380px; }
+  th.priceHead { min-width: 100px; text-align: center; }
+  td.priceColumn { text-align: right; }
+  .logo { display: block; margin: 0 auto 10px auto; max-width: 50%; }
+}
+
+.printBtn {
+  margin: 0 auto;
+  display: block;
+  margin-top: 30px;
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+  cursor: pointer;
+  border: 0;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+@media print {
+  .printing { margin: 0; border: 0; padding: 0; box-shadow: none}
+  .container { max-width: 380px !important; width: 380px !important; }
+  body { font-family: 'Courier New', Courier, monospace !important; color: black !important; }
+  h1, h2, h3, h4, h5, h6 { text-align: center; max-width: 380px; margin-bottom: 0 !important; padding-bottom: 0 !important; }
+  hr { width: 380px; float: left; clear: both; border-top: 2px dashed black !important; }
+  p { max-width: 380px; }
+  table { clear: both; width: 380px; }
+  .hide { display: none }
+}
