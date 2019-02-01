@@ -48,21 +48,20 @@ class BillingDetail extends Component {
         <button className="printBtn hide" onClick={this.print}>Imprimir</button>
         <div class="printing">
         <img className="logo" src={Logo} alt="Logo Colmillitos" />
-        <h5>Tienda para mascotas</h5>
-        <h3>COLMILLITOS</h3>
-        <h5>www.colmillitos.pet</h5>
+        <h5>TIENDA PARA MASCOTAS</h5>
+        <h6>RÉGIMEN COMÚN</h6>
         <h6>NIT. 1038770891-8</h6>
-        <h6>Carrera 55A # 57A - 46</h6>
-        <h6>Teléfono: 3136398031</h6>
-        <h6>Itaguí, Antioquia</h6>
+        <h6>CARRERA 55A # 57A - 46</h6>
+        <h6>TELÉFONO: 3136398031</h6>
+        <h6>ITAGUÍ</h6>
         <br />
-        <h6>Fecha: { billingDetailed.created_at }</h6>
+        <h6>FECHA: { billingDetailed.created_at }</h6>
         <hr />
         <table>
           <tr>
             <th>&nbsp;</th>
-            <th>Descripción</th>
-            <th className="priceHead">Valor</th>
+            <th>DESCRIPCIÓN</th>
+            <th className="priceHead">VALOR</th>
           </tr>
           { billingDetailed.products.map(product => {
             discount = discount + (((product.pivot.discount / 100) * product.pivot.price) * product.pivot.quantity);
@@ -71,11 +70,11 @@ class BillingDetail extends Component {
             return (
               <tr key={ product.id }>
                 <td>{ product.pivot.quantity }x&nbsp;</td>
-                <td>
+                <td className="mayus">
                   { product.description }
                   { product.pivot.discount > 0 && 
                     <>
-                      <br /><small>Ahorro: { CurrencyFormat((((product.pivot.discount / 100) * product.pivot.price) * product.pivot.quantity).toFixed(2)) }</small>
+                      <br /><small>AHORRO: { CurrencyFormat((((product.pivot.discount / 100) * product.pivot.price) * product.pivot.quantity).toFixed(2)) }</small>
                     </>
                   }
                 </td>
@@ -89,8 +88,8 @@ class BillingDetail extends Component {
         <hr/>
         { discount > 0 && (
           <>
-            <h6>Subtotal: { CurrencyFormat(subtotal.toFixed(2)) }</h6>
-            <h6>Ahorro: { CurrencyFormat(discount.toFixed(2)) }</h6>
+            <h6>SUBTOTAL: { CurrencyFormat(subtotal.toFixed(2)) }</h6>
+            <h6>AHORRO: { CurrencyFormat(discount.toFixed(2)) }</h6>
             <br />
           </>
         )}
@@ -98,17 +97,17 @@ class BillingDetail extends Component {
         <hr/>
         <table>
           <tr>
-            <td>Efectivo:</td>
+            <td>EFECTIVO:</td>
             <td>{ CurrencyFormat(billingDetailed.money) }</td>
           </tr>
           <tr>
-            <td>Cambio:</td>
+            <td>CAMBIO:</td>
             <td>{ CurrencyFormat(billingDetailed.change) }</td>
           </tr>
         </table>
         <br /><br />
         <h6>GRACIAS POR SU COMPRA</h6>
-        <h6>Visitanos en www.colmillitos.pet</h6>
+        <h6><strong>VISITANOS EN WWW.COLMILLITOS.PET</strong></h6>
       </div>
       </div>
     );

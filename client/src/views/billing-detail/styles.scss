@@ -30,6 +30,8 @@
   border-radius: 5px;
 }
 
+.mayus { text-transform: uppercase; }
+
 @media print {
   .printing { margin: 0; border: 0; padding: 0; box-shadow: none}
   .container { max-width: 380px !important; width: 380px !important; }
