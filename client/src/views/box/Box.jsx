@@ -54,8 +54,8 @@ class Box extends Component {
             </thead>
             <tbody>
               { sales.map(sale => (
-                <tr>
-                  <td><a href="javascript:;">Ver detalles</a></td>
+                <tr key={sale.id}>
+                  <td>&nbsp;</td>
                   <td>{ sale.description }</td>
                   <td>{ CurrencyFormat(sale.income_value) }</td>
                   <td>{ sale.created_at }</td>

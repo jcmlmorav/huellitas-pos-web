@@ -46,7 +46,7 @@ class BillingDetail extends Component {
     return (
       <div>
         <button className="printBtn hide" onClick={this.print}>Imprimir</button>
-        <div class="printing">
+        <div className="printing">
         <img className="logo" src={Logo} alt="Logo Colmillitos" />
         <h5>Tienda para mascotas</h5>
         <h6>Régimen simplificado</h6>
@@ -58,32 +58,36 @@ class BillingDetail extends Component {
         <h6>Fecha: { billingDetailed.created_at }</h6>
         <hr />
         <table>
-          <tr>
-            <th>&nbsp;</th>
-            <th>Descripción</th>
-            <th className="priceHead">Valor</th>
-          </tr>
-          { billingDetailed.products.map(product => {
-            discount = discount + (((product.pivot.discount / 100) * product.pivot.price) * product.pivot.quantity);
-            subtotal = subtotal + (product.pivot.price * product.pivot.quantity);
+          <thead>
+            <tr>
+              <th>&nbsp;</th>
+              <th>Descripción</th>
+              <th className="priceHead">Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            { billingDetailed.products.map(product => {
+              discount = discount + (((product.pivot.discount / 100) * product.pivot.price) * product.pivot.quantity);
+              subtotal = subtotal + (product.pivot.price * product.pivot.quantity);
 
-            return (
-              <tr key={ product.id }>
-                <td>{ product.pivot.quantity }x&nbsp;</td>
-                <td className="mayus">
-                  { product.description }
-                  { product.pivot.discount > 0 && 
-                    <>
-                      <br /><small>Ahorro: { CurrencyFormat((((product.pivot.discount / 100) * product.pivot.price) * product.pivot.quantity).toFixed(2)) }</small>
-                    </>
-                  }
-                </td>
-                <td className="priceColumn">
-                  { product.pivot.discount > 0 ? CurrencyFormat((((1 - (product.pivot.discount / 100)) * product.pivot.price) * product.pivot.quantity).toFixed(2)) : CurrencyFormat((product.pivot.price * product.pivot.quantity).toFixed(2)) }
-                </td>
-              </tr>
-            )
-          }) }
+              return (
+                <tr key={ product.id }>
+                  <td>{ product.pivot.quantity }x&nbsp;</td>
+                  <td className="mayus">
+                    { product.description }
+                    { product.pivot.discount > 0 && 
+                      <>
+                        <br /><small>Ahorro: { CurrencyFormat((((product.pivot.discount / 100) * product.pivot.price) * product.pivot.quantity).toFixed(2)) }</small>
+                      </>
+                    }
+                  </td>
+                  <td className="priceColumn">
+                    { product.pivot.discount > 0 ? CurrencyFormat((((1 - (product.pivot.discount / 100)) * product.pivot.price) * product.pivot.quantity).toFixed(2)) : CurrencyFormat((product.pivot.price * product.pivot.quantity).toFixed(2)) }
+                  </td>
+                </tr>
+              )
+            }) }
+          </tbody>
         </table>
         <hr/>
         { discount > 0 && (
@@ -96,14 +100,16 @@ class BillingDetail extends Component {
         <h4>TOTAL: { CurrencyFormat(billingDetailed.total) }</h4>
         <hr/>
         <table>
-          <tr>
-            <td>Efectivo:</td>
-            <td>{ CurrencyFormat(billingDetailed.money) }</td>
-          </tr>
-          <tr>
-            <td>Cambio:</td>
-            <td>{ CurrencyFormat(billingDetailed.change) }</td>
-          </tr>
+          <tbody>
+            <tr>
+              <td>Efectivo:</td>
+              <td>{ CurrencyFormat(billingDetailed.money) }</td>
+            </tr>
+            <tr>
+              <td>Cambio:</td>
+              <td>{ CurrencyFormat(billingDetailed.change) }</td>
+            </tr>
+          </tbody>
         </table>
         <br /><br />
         <h6>Gracias por su compra</h6>

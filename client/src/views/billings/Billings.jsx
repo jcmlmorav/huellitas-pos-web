@@ -38,7 +38,7 @@ class Billings extends Component {
           </thead>
           <tbody>
             { billings.map(sale => (
-              <tr>
+              <tr key={sale.id}>
                 <td><NavLink to={`/factura/${ sale.id }`}>Ver detalles</NavLink></td>
                 <td>{ CurrencyFormat(sale.total) }</td>
                 <td>{ sale.products_quantity }</td>
