@@ -51,7 +51,7 @@ class BillingDetail extends Component {
         <h5>Tienda para mascotas</h5>
         <h6>Régimen simplificado</h6>
         <h6>NIT. 1038770891-8</h6>
-        <h6>Carrera 55A # 57A - 46</h6>
+        <h6>Calle 79A # 52 A 87</h6>
         <h6>Teléfono: 3136398031</h6>
         <h6>Itaguí</h6>
         <br />
