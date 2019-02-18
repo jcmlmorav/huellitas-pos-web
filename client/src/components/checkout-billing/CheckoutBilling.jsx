@@ -59,7 +59,7 @@ class CheckoutBilling extends Component {
     const value = event.target.value;
 
     this.setState({
-      currentChange: (value - billing.total).toFixed(2),
+      currentChange: (value - billing.total).toFixed(0),
       currentMoney: value
     });
   }
