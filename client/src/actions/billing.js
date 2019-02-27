@@ -46,3 +46,8 @@ export const removeProductFromBilling = (product) => ({
   type: TYPES.REMOVE_PRODUCT_FROM_BILLING,
   payload: product
 });
+
+export const updateProductQuantity = (id, quantity) => ({
+  type: TYPES.UPDATE_PRODUCT_QUANTITY,
+  payload: { id, quantity }
+})

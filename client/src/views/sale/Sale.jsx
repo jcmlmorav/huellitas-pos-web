@@ -52,7 +52,7 @@ class Sale extends Component {
         <h6>Régimen simplificado</h6>
         <h6>NIT. 1038770891-8</h6>
         <h6>Calle 79A # 52 A 87</h6>
-        <h6>Teléfono: 3136398031</h6>
+        <h6>Teléfono: 3205644443</h6>
         <h6>Itaguí</h6>
         <br />
         <h6>Fecha: { lastBilling.created_at }</h6>

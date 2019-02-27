@@ -232,6 +232,48 @@ const billings = (state = initState, action) => {
           products: []
         }
       }
+    case TYPES.UPDATE_PRODUCT_QUANTITY:
+      let billingState = {
+        ...state,
+        billing: {
+          ...state.billing,
+          products: state.billing.products.map(product => {
+            if ((product.id === action.payload.id) && action.payload.quantity > 0) product.quantity = parseInt(action.payload.quantity);
+            return product;
+          })
+        }
+      };
+
+      let qTotal = 0,
+          qIva = 0,
+          qBrute = 0,
+          qDiscount = 0,
+          qSubtotal = 0,
+          qProducts_quantity = 0;
+      
+      billingState.billing.products.forEach(product => {
+        qTotal = qTotal + (product.price * product.quantity) * (1 - (product.discount / 100));
+        qIva = (qIva + (product.price * product.quantity) * (1 - (product.discount / 100))) * 0.19;
+        qBrute = (qBrute + (product.price * product.quantity));
+        qDiscount = (qDiscount + ((product.price * product.quantity) * (product.discount / 100)));
+        qSubtotal = (qSubtotal + (product.price * product.quantity) * (1 - (product.discount / 100))) * 0.81;
+        qProducts_quantity = qProducts_quantity + product.quantity;
+      });
+
+      billingState = {
+        ...billingState,
+        billing: {
+          ...billingState.billing,
+          total: qTotal.toFixed(2),
+          iva: qIva.toFixed(2),
+          brute: qBrute.toFixed(2),
+          discount: qDiscount.toFixed(2),
+          subtotal: qSubtotal.toFixed(2),
+          products_quantity: qProducts_quantity
+        }
+      }
+      
+      return billingState;
     default:
       return state;
   }

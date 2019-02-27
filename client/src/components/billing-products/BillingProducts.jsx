@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Alert, Button, Col, Table, Row } from 'reactstrap';
+import { Alert, Button, Col, Input, Table, Row } from 'reactstrap';
 import CurrencyFormat from '../../utils/CurrencyFormat';
-import { removeProductFromBilling } from '../../actions/billing';
+import { removeProductFromBilling, updateProductQuantity } from '../../actions/billing';
 
 class BillingProducts extends Component {
   constructor(props) {
@@ -13,7 +13,10 @@ class BillingProducts extends Component {
 
     const { dispatch } = props;
 
-    this.boundActionCreators = bindActionCreators(removeProductFromBilling, dispatch);
+    this.boundActionCreators = bindActionCreators({
+      removeProductFromBilling: dispatch,
+      updateProductQuantity: dispatch
+    });
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -28,6 +31,11 @@ class BillingProducts extends Component {
   removeProduct(product) {
     const{ dispatch } = this.props;
     dispatch(removeProductFromBilling(product));
+  }
+
+  updateProductQuantity(event, id) {
+    const{ dispatch } = this.props;
+    dispatch(updateProductQuantity(id, event.target.value));
   }
 
   render() {
@@ -59,7 +67,7 @@ class BillingProducts extends Component {
                         <sup>-{ product.discount }%</sup>
                       }
                     </td>
-                    <td>{ product.quantity }</td>
+                    <td><Input type="number" value={ product.quantity } onChange={ (event) => this.updateProductQuantity(event, product.id) } /></td>
                     <td>
                       { product.discount > 0 ?
                         (<div>
