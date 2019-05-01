@@ -70,6 +70,7 @@ class CheckoutBilling extends Component {
 
     dispatch(addBilling(billing, currentMoney, currentChange));
     this.props.toggle();
+    window.location = "/compra";
   }
 
   render() {
