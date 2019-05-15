@@ -15,7 +15,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Navbar color="light" light expand="md">
+          <Navbar expand="md">
             <NavbarBrand href="/" tabIndex="-1">COLMILLITOS</NavbarBrand>
             <Nav className="ml-auto" navbar>
               <NavItem>

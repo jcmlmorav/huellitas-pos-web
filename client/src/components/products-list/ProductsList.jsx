@@ -27,11 +27,11 @@ class ProductsList extends Component {
       if( products.length ) {
         component = (
           <Row>
-            <Col>
+            <Col className="productsTable">
               <Table>
                 <thead>
                   <tr>
-                    <th>Código de barras</th>
+                    <th className="code">Código de barras</th>
                     <th>Descripción</th>
                     <th>Cantidad</th>
                     <th>Precio</th>

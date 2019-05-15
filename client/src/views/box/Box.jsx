@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Alert, Card, CardBody, CardTitle, Col, Table, Row } from 'reactstrap';
+import { NavLink } from "react-router-dom";
 import { getAll, getResume } from '../../actions/sales';
 import CurrencyFormat from '../../utils/CurrencyFormat';
 
@@ -43,26 +44,28 @@ class Box extends Component {
         </Row>
         <br />
         { sales.length ? (
-          <Table>
-            <thead>
-              <tr>
-                <th></th>
-                <th>Concepto</th>
-                <th>Valor</th>
-                <th>Fecha</th>
-              </tr>
-            </thead>
-            <tbody>
-              { sales.map(sale => (
-                <tr key={sale.id}>
-                  <td>&nbsp;</td>
-                  <td>{ sale.description }</td>
-                  <td>{ CurrencyFormat(sale.income_value) }</td>
-                  <td>{ sale.created_at }</td>
+          <div className="billingsTable">
+            <Table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Concepto</th>
+                  <th>Valor</th>
+                  <th>Fecha</th>
                 </tr>
-              )) }
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                { sales.map(sale => (
+                  <tr key={sale.id}>
+                    <td><NavLink to={`/factura/${ sale.id }`}>Ver detalles</NavLink></td>
+                    <td>{ sale.description }</td>
+                    <td>{ CurrencyFormat(sale.income_value) }</td>
+                    <td>{ sale.created_at }</td>
+                  </tr>
+                )) }
+              </tbody>
+            </Table>
+          </div>
           ) : (<Alert color="primary">No se han realizado ventas el día de hoy</Alert>)
         }
       </div>

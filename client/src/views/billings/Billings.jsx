@@ -25,7 +25,7 @@ class Billings extends Component {
     const { billings } = this.props;
 
     return (
-      <div>
+      <div className="billingsTable">
         <h1 className="text-center">Facturas</h1>
         <Table>
           <thead>

@@ -93,7 +93,7 @@ class Finances extends Component {
         <ExpenseForm isOpen={ expenseIsOpen } toggle={ this.toggleExpenseForm } />
         <br />
         <Row>
-          <Col lg="6">
+          {/* <Col lg="12">
             <Table>
               <thead>
                 <tr>
@@ -115,9 +115,9 @@ class Finances extends Component {
                 Aún no hay registros disponibles
               </Alert>
             )}
-          </Col>
-          <Col lg="6">
-          <Table>
+          </Col> */}
+          <Col lg="12" className="expensesTable">
+            <Table>
               <thead>
                 <tr>
                   <th>Egreso</th>
@@ -126,8 +126,8 @@ class Finances extends Component {
                 </tr>
                 { expenses.map(expense => (
                   <tr key={ expense.id }>
-                    <td>{ expense.description }</td>
-                    <td className="text-right">{ CurrencyFormat(expense.expense_value) }</td>
+                    <td className="text-left">{ expense.description }</td>
+                    <td>{ CurrencyFormat(expense.expense_value) }</td>
                     <td>{ expense.created_at }</td>
                   </tr>
                 ))}
