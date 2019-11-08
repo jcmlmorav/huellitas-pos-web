@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { BillingProducts, BillingStatus, CheckoutBilling, SearchProduct } from '../../components';
-import { Button, Col, Row } from 'reactstrap';
+import { TitleStyled } from '../../styles';
+import { WrapperStyled, ContentStyled, SidebarStyled } from './styles';
+import Checkout from './components/checkout';
+import { BillingProducts, CheckoutBilling, SearchProduct } from '../../components';
+import { Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getProducts } from '../../actions/inventory';
@@ -45,26 +48,24 @@ class Billing extends Component {
     const billingDisabled = billing.products.length > 0;
 
     return (
-      <div>
-        <h1 className="text-center">Facturación</h1>
-        <SearchProduct titleText="Agregar producto" mode="billing" />
-        <Row>
-          <Col lg="9">
+      <>
+        <TitleStyled>Facturación</TitleStyled>
+        <WrapperStyled>
+          <ContentStyled>
+            <SearchProduct titleText="Agregar producto" mode="billing" />
             <BillingProducts />
-          </Col>
-          <Col lg="3">
-            <div className="stickyElement">
-              <BillingStatus billing={ billing } />
-              <div className="billingButtons">
-                <Button block color="primary" disabled={ !billingDisabled } onClick={ this.toggleCheckoutBilling } tabIndex="-1">Finalizar compra</Button>
-                <Button block color="secondary" disabled={ !billingDisabled } onClick={ this.handleCancelBilling } outline tabIndex="-1">Cancelar compra</Button>
-              </div>
+          </ContentStyled>
+          <SidebarStyled>
+            <Checkout billing={billing} />
+            <div className="billingButtons">
+              <Button block color="primary" disabled={!billingDisabled} onClick={this.toggleCheckoutBilling} tabIndex="-1">Finalizar compra</Button>
+              <Button block color="secondary" disabled={!billingDisabled} onClick={this.handleCancelBilling} outline tabIndex="-1">Cancelar compra</Button>
             </div>
-          </Col>
-        </Row>
-        <CheckoutBilling isOpen={ checkoutBillingIsOpen } toggle={ this.toggleCheckoutBilling } />
-      </div>
-    )
+          </SidebarStyled>
+        </WrapperStyled>
+        <CheckoutBilling isOpen={checkoutBillingIsOpen} toggle={this.toggleCheckoutBilling} />
+      </>
+    );
   }
 }
 
