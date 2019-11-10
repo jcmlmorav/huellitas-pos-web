@@ -1,3 +1,27 @@
+.ant {
+  &-btn {
+    &:hover,
+    &:active,
+    &:focus {
+      border-color: #bb2972;
+      color: #bb2972;
+    }
+
+    &-primary {
+      background-color: #de3d8d;
+      border-color: #de3d8d;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: #bb2972;
+        border-color: #bb2972;
+        color: white;
+      }
+    }
+  }
+}
+
 .btn-primary,
 .printBtn {
   background-color: #de3d8d !important;

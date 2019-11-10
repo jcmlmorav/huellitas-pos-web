@@ -3,6 +3,7 @@ import { BrowserRouter as Router, NavLink, Route } from "react-router-dom";
 import Billing from './views/billing';
 import { BillingDetail, Box, Customers, Inventory, Finances, Sale, Billings } from './views';
 import { Container, Row, Col } from 'reactstrap';
+import 'antd/dist/antd.css';
 import './App.scss';
 import {
   Navbar,

@@ -4,10 +4,6 @@ import { TDKey, TDValue, TDInput } from '../../styles';
 import CurrencyFormat from '../../../../../../utils/CurrencyFormat';
 
 function Payment({ currentMoney, currentChange, handleChange }) {
-  const setCurrentMoney = (event) => {
-    handleChange(event.target.value);
-  }
-
   return (
     <>
       <SubtitleStyled>Pago</SubtitleStyled>
@@ -16,7 +12,7 @@ function Payment({ currentMoney, currentChange, handleChange }) {
           <tr>
             <TDKey>Efectivo</TDKey>
             <TDInput>
-              <input onChange={setCurrentMoney} min={0} type="number" value={currentMoney} />
+              <input onChange={handleChange} min={0} type="number" value={currentMoney} />
               <span>$</span>
             </TDInput>
           </tr>

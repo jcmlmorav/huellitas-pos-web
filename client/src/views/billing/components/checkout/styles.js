@@ -35,3 +35,10 @@ export const TDInput = styled.td`
     padding-right: 5px;
   }
 `;
+
+export const ButtonsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  button { margin-bottom: 0.5rem; }
+`;

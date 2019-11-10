@@ -56,10 +56,9 @@ class Billing extends Component {
             <BillingProducts />
           </ContentStyled>
           <SidebarStyled>
-            <Checkout billing={billing} />
+            <Checkout billing={billing} handleCancel={this.handleCancelBilling} />
             <div className="billingButtons">
               <Button block color="primary" disabled={!billingDisabled} onClick={this.toggleCheckoutBilling} tabIndex="-1">Finalizar compra</Button>
-              <Button block color="secondary" disabled={!billingDisabled} onClick={this.handleCancelBilling} outline tabIndex="-1">Cancelar compra</Button>
             </div>
           </SidebarStyled>
         </WrapperStyled>
