@@ -16,10 +16,6 @@ function Coupon({ handleChange, discount, billing }) {
               <span>%</span>
             </TDInput>
           </tr>
-          <tr>
-            <TDKey>Descuento</TDKey>
-            <TDValue>{CurrencyFormat(billing.total * (discount / 100))}</TDValue>
-          </tr>
         </tbody>
       </table>
     </>

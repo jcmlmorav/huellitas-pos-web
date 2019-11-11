@@ -1,75 +1,48 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { TitleStyled } from '../../styles';
 import { WrapperStyled, ContentStyled, SidebarStyled } from './styles';
+import { SearchProduct } from '../../components';
+import { BillingProducts } from '../../components';
 import Checkout from './components/checkout';
-import { BillingProducts, CheckoutBilling, SearchProduct } from '../../components';
-import { Button } from 'reactstrap';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { getProducts } from '../../actions/inventory';
-import { getBilling, cleanBilling } from '../../actions/billing';
-import './styles.scss';
+import TYPES from '../../constants/types';
 
-class Billing extends Component {
-  constructor(props) {
-    super(props);
+function Billing() {
+  const dispatch = useDispatch();
+  const billing = useSelector(state => state.billings.billing);
 
-    const { dispatch } = props;
+  console.log(billing);
 
-    this.state = { checkoutBillingIsOpen: false };
+  useEffect(() => {
+    dispatch({ type: TYPES.GET_PRODUCTS });
+  });
 
-    this.boundActionCreators = bindActionCreators({
-      getBilling: dispatch,
-      getProducts: dispatch,
-      cleanBilling: dispatch
-    });
+  const cancel = () => {
+    dispatch({ type: TYPES.CLEAN_BILLING });
   }
 
-  componentDidMount() {
-    let { dispatch } = this.props;
-
-    dispatch(getProducts());
-    dispatch(getBilling());
+  const update = () => {
+    console.log('Update available');
   }
 
-  toggleCheckoutBilling = () => {
-    this.setState(prevState => ({ checkoutBillingIsOpen: !prevState.checkoutBillingIsOpen }));
-  }
-
-  handleCancelBilling = () => {
-    let { dispatch } = this.props;
-
-    dispatch(cleanBilling());
-  }
-
-  render() {
-    const { checkoutBillingIsOpen } = this.state;
-    const { billing } = this.props;
-    const billingDisabled = billing.products.length > 0;
-
-    return (
-      <>
-        <TitleStyled>Facturación</TitleStyled>
-        <WrapperStyled>
-          <ContentStyled>
+  return (
+    <>
+      <TitleStyled>Facturación</TitleStyled>
+      <WrapperStyled>
+        <ContentStyled>
             <SearchProduct titleText="Agregar producto" mode="billing" />
             <BillingProducts />
           </ContentStyled>
           <SidebarStyled>
-            <Checkout billing={billing} handleCancel={this.handleCancelBilling} />
-            <div className="billingButtons">
-              <Button block color="primary" disabled={!billingDisabled} onClick={this.toggleCheckoutBilling} tabIndex="-1">Finalizar compra</Button>
-            </div>
+            <Checkout
+              billing={billing}
+              handleUpdate={update}
+              handleCancel={cancel}
+            />
           </SidebarStyled>
-        </WrapperStyled>
-        <CheckoutBilling isOpen={checkoutBillingIsOpen} toggle={this.toggleCheckoutBilling} />
-      </>
-    );
-  }
+      </WrapperStyled>
+    </>
+  );
 }
 
-const mapStateToProps = state => ({
-  billing: state.billings.billing
-});
-
-export default connect(mapStateToProps)(Billing);
+export default Billing;

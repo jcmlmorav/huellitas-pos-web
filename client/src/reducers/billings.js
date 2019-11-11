@@ -8,6 +8,8 @@ const initState = {
     iva: 0,
     brute: 0,
     discount: 0,
+    coupon: 10,
+    coupon_discount: 0,
     total: 0,
     products_quantity: 0,
     products: []
@@ -166,15 +168,21 @@ const billings = (state = initState, action) => {
         addProducts_quantity = addProducts_quantity + product.quantity;
       });
 
+      let add_coupon_discount = addTotal.toFixed(0) * (addBillingState.billing.coupon / 100);
+      const add50s = add_coupon_discount / 50;
+      const add_units = add50s % 1 > 0 ? Math.floor(add50s) + 1 : add50s;
+      add_coupon_discount = add_units * 50;
+
       addBillingState = {
         ...addBillingState,
         billing: {
           ...addBillingState.billing,
-          total: addTotal.toFixed(2),
-          iva: addIva.toFixed(2),
-          brute: addBrute.toFixed(2),
-          discount: addDiscount.toFixed(2),
-          subtotal: addSubtotal.toFixed(2),
+          total: parseInt(addTotal.toFixed(0)) - add_coupon_discount,
+          iva: addIva.toFixed(0),
+          brute: addBrute.toFixed(0),
+          discount: addDiscount.toFixed(0),
+          subtotal: addSubtotal.toFixed(0),
+          coupon_discount: add_coupon_discount,
           products_quantity: addProducts_quantity
         }
       }
@@ -205,15 +213,21 @@ const billings = (state = initState, action) => {
         removeProducts_quantity = removeProducts_quantity + product.quantity;
       });
 
+      let remove_coupon_discount = removeTotal.toFixed(0) * (removeBillingsState.billing.coupon / 100);
+      const remove50s = remove_coupon_discount / 50;
+      const remove_units = remove50s % 1 > 0 ? Math.floor(remove50s) + 1 : remove50s;
+      remove_coupon_discount = remove_units * 50;
+
       removeBillingsState = {
         ...removeBillingsState,
         billing: {
           ...removeBillingsState.billing,
-          total: removeTotal.toFixed(2),
+          total: removeTotal.toFixed(0),
           iva: removeIva.toFixed(2),
-          brute: removeBrute.toFixed(2),
-          discount: removeDiscount.toFixed(2),
-          subtotal: removeSubtotal.toFixed(2),
+          brute: removeBrute.toFixed(0),
+          discount: removeDiscount.toFixed(0),
+          subtotal: removeSubtotal.toFixed(0),
+          coupon_discount: remove_coupon_discount,
           products_quantity: removeProducts_quantity
         }
       }
@@ -228,6 +242,8 @@ const billings = (state = initState, action) => {
           total: 0,
           brute: 0,
           discount: 0,
+          coupon: 0,
+          coupon_discount: 0,
           products_quantity: 0,
           products: []
         }
@@ -260,15 +276,21 @@ const billings = (state = initState, action) => {
         qProducts_quantity = qProducts_quantity + product.quantity;
       });
 
+      let q_coupon_discount = qTotal.toFixed(0) * (billingState.billing.coupon / 100);
+      const q50s = q_coupon_discount / 50;
+      const q_units = q50s % 1 > 0 ? Math.floor(q50s) + 1 : q50s;
+      q_coupon_discount = q_units * 50;
+
       billingState = {
         ...billingState,
         billing: {
           ...billingState.billing,
-          total: qTotal.toFixed(2),
+          total: parseInt(qTotal.toFixed(0)) - q_coupon_discount,
           iva: qIva.toFixed(2),
-          brute: qBrute.toFixed(2),
-          discount: qDiscount.toFixed(2),
-          subtotal: qSubtotal.toFixed(2),
+          brute: qBrute.toFixed(0),
+          discount: qDiscount.toFixed(0),
+          subtotal: qSubtotal.toFixed(0),
+          coupon_discount: q_coupon_discount,
           products_quantity: qProducts_quantity
         }
       }
