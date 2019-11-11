@@ -31,7 +31,7 @@ export const addProductToBilling = (product) => ({
 export const addBilling = (billing, money, change) => {
   billing.money = money;
   billing.change = change;
-  
+
   return {
     type: TYPES.ADD_BILLING,
     payload: billing
@@ -50,4 +50,9 @@ export const removeProductFromBilling = (product) => ({
 export const updateProductQuantity = (id, quantity) => ({
   type: TYPES.UPDATE_PRODUCT_QUANTITY,
   payload: { id, quantity }
-})
+});
+
+export const updateCoupon = (coupon) => ({
+  type: TYPES.UPDATE_BILLING_COUPON,
+  payload: { coupon }
+});

@@ -8,7 +8,7 @@ const initState = {
     iva: 0,
     brute: 0,
     discount: 0,
-    coupon: 10,
+    coupon: 0,
     coupon_discount: 0,
     total: 0,
     products_quantity: 0,
@@ -19,7 +19,7 @@ const initState = {
 };
 
 const billings = (state = initState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case TYPES.GET_BILLINGS:
       return {
         ...state,
@@ -103,8 +103,8 @@ const billings = (state = initState, action) => {
         }
       }
     case TYPES.GET_BILLING:
-      if(action.payload !== undefined) {
-        return  state;
+      if (action.payload !== undefined) {
+        return state;
       } else {
         return {
           ...state,
@@ -118,17 +118,17 @@ const billings = (state = initState, action) => {
       let product = state.billing.products.find(product => product.barcode === action.payload.barcode);
       let addBillingState = { ...state };
 
-      if( product ) {
+      if (product) {
         addBillingState = {
           ...addBillingState,
           billing: {
             ...addBillingState.billing,
-            products: addBillingState.billing.products.map(product => 
+            products: addBillingState.billing.products.map(product =>
               (product.barcode === action.payload.barcode) ?
-              {
-                ...product,
-                quantity: product.quantity + 1
-              } : product
+                {
+                  ...product,
+                  quantity: product.quantity + 1
+                } : product
             )
           }
         }
@@ -153,12 +153,12 @@ const billings = (state = initState, action) => {
       }
 
       let addTotal = 0,
-          addIva = 0,
-          addBrute = 0,
-          addDiscount = 0,
-          addSubtotal = 0,
-          addProducts_quantity = 0;
-      
+        addIva = 0,
+        addBrute = 0,
+        addDiscount = 0,
+        addSubtotal = 0,
+        addProducts_quantity = 0;
+
       addBillingState.billing.products.forEach(product => {
         addTotal = addTotal + (product.price * product.quantity) * (1 - (product.discount / 100));
         addIva = (addIva + (product.price * product.quantity) * (1 - (product.discount / 100))) * 0.19;
@@ -186,16 +186,16 @@ const billings = (state = initState, action) => {
           products_quantity: addProducts_quantity
         }
       }
-      
+
       return addBillingState;
     case TYPES.REMOVE_PRODUCT_FROM_BILLING:
       let removeTotal = 0,
-          removeIva = 0,
-          removeBrute = 0,
-          removeDiscount = 0,
-          removeSubtotal = 0,
-          removeProducts_quantity = 0;
-      
+        removeIva = 0,
+        removeBrute = 0,
+        removeDiscount = 0,
+        removeSubtotal = 0,
+        removeProducts_quantity = 0;
+
       let removeBillingsState = {
         ...state,
         billing: {
@@ -222,7 +222,7 @@ const billings = (state = initState, action) => {
         ...removeBillingsState,
         billing: {
           ...removeBillingsState.billing,
-          total: removeTotal.toFixed(0),
+          total: removeTotal.toFixed(0) - remove_coupon_discount,
           iva: removeIva.toFixed(2),
           brute: removeBrute.toFixed(0),
           discount: removeDiscount.toFixed(0),
@@ -233,6 +233,23 @@ const billings = (state = initState, action) => {
       }
 
       return removeBillingsState;
+    case TYPES.UPDATE_BILLING_COUPON:
+      let billingCoupon = { ...state };
+
+      let coupon_discount = billingCoupon.billing.brute * (action.payload.coupon / 100);
+      const _50s = coupon_discount / 50;
+      const units = _50s % 1 > 0 ? Math.floor(_50s) + 1 : _50s;
+      coupon_discount = units * 50;
+
+      return {
+        ...billingCoupon,
+        billing: {
+          ...billingCoupon.billing,
+          total: billingCoupon.billing.brute - coupon_discount,
+          coupon: parseInt(action.payload.coupon),
+          coupon_discount: coupon_discount
+        }
+      };
     case TYPES.CLEAN_BILLING:
       return {
         ...state,
@@ -261,12 +278,12 @@ const billings = (state = initState, action) => {
       };
 
       let qTotal = 0,
-          qIva = 0,
-          qBrute = 0,
-          qDiscount = 0,
-          qSubtotal = 0,
-          qProducts_quantity = 0;
-      
+        qIva = 0,
+        qBrute = 0,
+        qDiscount = 0,
+        qSubtotal = 0,
+        qProducts_quantity = 0;
+
       billingState.billing.products.forEach(product => {
         qTotal = qTotal + (product.price * product.quantity) * (1 - (product.discount / 100));
         qIva = (qIva + (product.price * product.quantity) * (1 - (product.discount / 100))) * 0.19;
@@ -294,7 +311,7 @@ const billings = (state = initState, action) => {
           products_quantity: qProducts_quantity
         }
       }
-      
+
       return billingState;
     default:
       return state;

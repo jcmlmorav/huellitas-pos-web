@@ -1,9 +1,8 @@
 import React from 'react';
 import { SubtitleStyled } from '../../../../../../styles';
-import { TDKey, TDValue, TDInput } from '../../styles';
-import CurrencyFormat from '../../../../../../utils/CurrencyFormat';
+import { TDKey, TDInput } from '../../styles';
 
-function Coupon({ handleChange, discount, billing }) {
+function Coupon({ handleChange, discount }) {
   return (
     <>
       <SubtitleStyled>Cupón</SubtitleStyled>

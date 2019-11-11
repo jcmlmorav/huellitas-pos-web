@@ -9,7 +9,7 @@ function Balance({ billing: { brute, discount, total, coupon, coupon_discount }}
       <SubtitleStyled>Balance</SubtitleStyled>
       <table>
         <tbody>
-          {discount > 0 || coupon > 0 && (
+          {(discount > 0 || coupon > 0) && (
             <tr>
               <TDKey>Subtotal</TDKey>
               <TDValue>{CurrencyFormat(brute)}</TDValue>

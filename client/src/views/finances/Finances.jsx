@@ -51,7 +51,7 @@ class Finances extends Component {
   }
 
   render() {
-    const { incomes, incomesResume, expenses, expensesResume } = this.props;
+    const { incomesResume, expenses, expensesResume } = this.props;
     const { incomeIsOpen, expenseIsOpen } = this.state;
 
     return (
