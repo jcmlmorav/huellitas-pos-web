@@ -49,6 +49,8 @@ class Sale extends Component {
         <div className="printing">
         <img className="logo" src={Logo} alt="Logo Colmillitos" />
         <h5>Tienda para mascotas</h5>
+        <br />
+        <h6>Comprobante de compra</h6>
         <h6>Régimen simplificado</h6>
         <h6>NIT. 1038770891-8</h6>
         <h6>Calle 79A # 52 A 87</h6>
@@ -90,10 +92,16 @@ class Sale extends Component {
           </tbody>
         </table>
         <hr/>
-        { discount > 0 && (
+        { (discount > 0 || lastBilling.coupon > 0) && (
           <>
+            {lastBilling.coupon > 0 && (
+              <>
+                <h6><strong>Cupón aplicado: {lastBilling.coupon.toFixed(0)}%</strong></h6>
+                <br />
+              </>
+            )}
             <h6>Subtotal: { CurrencyFormat(subtotal.toFixed(2)) }</h6>
-            <h6>Ahorro: { CurrencyFormat(discount.toFixed(2)) }</h6>
+            <h6>Ahorro: { CurrencyFormat(discount + lastBilling.coupon_discount) }</h6>
             <br />
           </>
         )}
