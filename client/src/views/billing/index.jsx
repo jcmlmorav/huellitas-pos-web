@@ -3,10 +3,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { TitleStyled } from '../../styles';
 import { WrapperStyled, ContentStyled, SidebarStyled } from './styles';
 import { SearchProduct } from '../../components';
-import { BillingProducts } from '../../components';
 import Checkout from './components/checkout';
+import Products from './components/products';
 import { getProducts } from '../../actions/inventory';
-import { cleanBilling, updateCoupon, addBilling } from '../../actions/billing';
+import {
+  cleanBilling,
+  updateCoupon,
+  addBilling,
+  updateProductQuantity,
+  removeProductFromBilling
+} from '../../actions/billing';
 
 function Billing() {
   const dispatch = useDispatch();
@@ -39,13 +45,25 @@ function Billing() {
     }
   }
 
+  const handleQuantityUpdate = (id, quantity) => {
+    dispatch(updateProductQuantity(id, quantity));
+  }
+
+  const handleRemoveProduct = (product) => {
+    dispatch(removeProductFromBilling(product));
+  }
+
   return (
     <>
       <TitleStyled>Facturación</TitleStyled>
       <WrapperStyled>
         <ContentStyled>
             <SearchProduct titleText="Agregar producto" mode="billing" />
-            <BillingProducts />
+            <Products
+              products={billing.products}
+              onUpdateQuantity={handleQuantityUpdate}
+              onRemoveProduct={handleRemoveProduct}
+            />
           </ContentStyled>
           <SidebarStyled>
             <Checkout

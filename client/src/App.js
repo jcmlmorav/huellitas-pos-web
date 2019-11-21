@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, NavLink, Route } from "react-router-dom";
 import Billing from './views/billing';
 import { BillingDetail, Box, Customers, Inventory, Finances, Sale, Billings } from './views';
-import { Container, Row, Col } from 'reactstrap';
 import 'antd/dist/antd.css';
 import './App.scss';
 import {
@@ -44,20 +43,14 @@ class App extends Component {
             </Nav>
           </Navbar>
 
-          <Container>
-            <Row>
-              <Col>
-                <Route path="/" exact component={Billing} />
-                <Route path="/clientes/" component={Customers} />
-                <Route path="/inventario/" component={Inventory} />
-                <Route path="/finanzas/" component={Finances} />
-                <Route path="/compra/" component={Sale} />
-                <Route path="/caja/" component={Box} />
-                <Route path="/facturas" component={Billings} />
-                <Route path="/factura/:id" component={BillingDetail} />
-              </Col>
-            </Row>
-          </Container>
+          <Route path="/" exact component={Billing} />
+          <Route path="/clientes/" component={Customers} />
+          <Route path="/inventario/" component={Inventory} />
+          <Route path="/finanzas/" component={Finances} />
+          <Route path="/compra/" component={Sale} />
+          <Route path="/caja/" component={Box} />
+          <Route path="/facturas" component={Billings} />
+          <Route path="/factura/:id" component={BillingDetail} />
         </div>
       </Router>
     );

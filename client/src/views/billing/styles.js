@@ -2,7 +2,9 @@ import styled from 'styled-components';
 
 export const WrapperStyled = styled.div`
   display: flex;
-  max-width: 1360px;
+  width: 100%;
+  max-width: 1366px;
+  margin: 0 auto;
 `;
 
 export const ContentStyled = styled.div`
