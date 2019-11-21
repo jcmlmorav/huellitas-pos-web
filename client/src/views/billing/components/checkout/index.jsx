@@ -16,14 +16,14 @@ function Checkout({ billing, handleCancel, handleUpdate, handleBilling }) {
     }
   }, [billing.brute]);
 
-  const updateGlobalDiscount = (event) => {
-    setGlobalDiscount(event.target.value);
-    handleUpdate({ coupon: event.target.value });
+  const updateGlobalDiscount = (value) => {
+    setGlobalDiscount(value);
+    handleUpdate({ coupon: value });
   }
 
-  const updateMoneyAmount = (event) => {
-    setCurrentMoney(event.target.value);
-    handleUpdate({ money: event.target.value });
+  const updateMoneyAmount = (value) => {
+    setCurrentMoney(value);
+    handleUpdate({ money: value });
   }
 
   const cancelBilling = () => {

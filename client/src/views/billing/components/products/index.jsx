@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table, Empty, Button } from 'antd';
 import CurrencyFormat from '../../../../utils/CurrencyFormat';
+import { InputNumber } from 'antd';
 import {
   PriceStyled,
   DiscountStyled,
@@ -10,8 +11,8 @@ import {
 } from './styles';
 
 function Products({ products, onUpdateQuantity, onRemoveProduct }) {
-  const updateQuantity = (event, id) => {
-    onUpdateQuantity(id, event.target.value);
+  const updateQuantity = (value, id) => {
+    onUpdateQuantity(id, value);
   }
 
   const removeProduct = (product) => {
@@ -37,11 +38,10 @@ function Products({ products, onUpdateQuantity, onRemoveProduct }) {
       key: 'quantity',
       render: ({ quantity, id }) => (
         <QuantityWrapper>
-          <input
-            type="number"
-            value={quantity}
+          <InputNumber
             min={0}
-            onChange={ (event) => updateQuantity(event, id) }
+            defaultValue={quantity}
+            onChange={ (value) => updateQuantity(value, id) }
           />
         </QuantityWrapper>
       )

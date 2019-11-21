@@ -2,6 +2,7 @@ import React from 'react';
 import { SubtitleStyled } from '../../../../../../styles';
 import { TDKey, TDValue, TDInput } from '../../styles';
 import CurrencyFormat from '../../../../../../utils/CurrencyFormat';
+import { InputNumber } from 'antd';
 
 function Payment({ currentMoney, currentChange, handleChange }) {
   return (
@@ -12,8 +13,13 @@ function Payment({ currentMoney, currentChange, handleChange }) {
           <tr>
             <TDKey>Efectivo</TDKey>
             <TDInput>
-              <input onChange={handleChange} min={0} type="number" value={currentMoney} />
-              <span>$</span>
+              <InputNumber
+                min={0}
+                onChange={handleChange}
+                defaultValue={currentMoney}
+                parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              />
             </TDInput>
           </tr>
           <tr>

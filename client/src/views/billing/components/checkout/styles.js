@@ -26,10 +26,7 @@ export const TDInput = styled.td`
   flex-direction: row-reverse;
   padding: 5px 0 5px;
 
-  input {
-    text-align: center;
-    width: 50%;
-  }
+  input { text-align: center; }
 
   span {
     padding-right: 5px;
