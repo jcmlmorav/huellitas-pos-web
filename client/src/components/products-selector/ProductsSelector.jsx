@@ -44,24 +44,31 @@ class ProductsSelector extends Component {
   }
 
   render() {
-    const { products } = this.props;
+    const { products, mode } = this.props;
+
     return (
       <Modal toggle={ this.toggle } isOpen={ this.state.isOpen }>
         <ModalHeader toggle={ this.toggle }>Seleccione el producto</ModalHeader>
         <ModalBody>
           <ListGroup>
-            { products.map(product => (
-              <ListGroupItem key={ product.id }>
-                <div className="productsSelector__container">
-                  <div>
-                    { product.description }
-                    <br />
-                    { CurrencyFormat(product.price) }
+            { products.map(product => {
+              let productElement = (
+                <ListGroupItem key={ product.id }>
+                  <div className="productsSelector__container">
+                    <div>
+                      { product.description }
+                      <br />
+                      { CurrencyFormat(product.price) }
+                    </div>
+                    <Button key={ product.id } color="primary" onClick={ () => { this.handleProductSelected(product) } }>Elegir</Button>
                   </div>
-                  <Button key={ product.id } color="primary" onClick={ () => { this.handleProductSelected(product) } }>Elegir</Button>
-                </div>
-              </ListGroupItem>
-            )) }
+                </ListGroupItem>
+              );
+
+              if ((mode === 'billing' && product.active) || mode === 'inventory') {
+                return productElement;
+              }
+            } )}
           </ListGroup>
         </ModalBody>
       </Modal>

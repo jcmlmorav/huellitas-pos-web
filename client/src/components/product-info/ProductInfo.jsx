@@ -30,6 +30,7 @@ class ProductInfo extends Component {
       price: 0,
       quantity: 0,
       discount: 0,
+      active: true,
       isEditing: false
     };
 
@@ -54,6 +55,7 @@ class ProductInfo extends Component {
         price: 0,
         quantity: 0,
         discount: 0,
+        active: true,
         isEditing: false
       }
     }
@@ -65,6 +67,7 @@ class ProductInfo extends Component {
         price: props.product.price,
         quantity: props.product.quantity,
         discount: props.product.discount,
+        active: props.product.active,
         isOpen: props.isOpen,
         isEditing: true
       }
@@ -91,6 +94,7 @@ class ProductInfo extends Component {
       price: 0,
       quantity: 0,
       discount: 0,
+      active: true,
       isEditing: false
     });
     this.props.toggle();
@@ -100,7 +104,7 @@ class ProductInfo extends Component {
     e.preventDefault();
 
     if(this.props.product) {
-      const { description, price, quantity, discount } = this.state;
+      const { description, price, quantity, discount, active } = this.state;
       const {
         barcode,
         mode,
@@ -113,7 +117,8 @@ class ProductInfo extends Component {
         description,
         price,
         quantity,
-        discount
+        discount,
+        active
       }
 
       if(product.barcode === barcode) {
@@ -129,16 +134,23 @@ class ProductInfo extends Component {
     }
   }
 
+  handleActiveChange = () => {
+    this.setState({
+      active: !this.state.active
+    });
+  }
+
   render() {
     const { barcode, error, product } = this.props;
-    const { description, price, quantity, discount } = this.state;
+    const { description, price, quantity, discount, active } = this.state;
 
     let generalError = '',
         barcodeError = '',
         descriptionError = '',
         quantityError = '',
         priceError = '',
-        discountError = '';
+        discountError = '',
+        activeError = '';
 
     if( error && Object.keys(error).length ) {
       if( 'failed' in error ) {
@@ -158,6 +170,9 @@ class ProductInfo extends Component {
       }
       if( 'discount' in error ) {
         discountError = (<FormFeedback>{ error.discount }</FormFeedback>);
+      }
+      if( 'active' in error ) {
+        activeError = (<FormFeedback>{ error.active }</FormFeedback>);
       }
     }
 
@@ -197,6 +212,13 @@ class ProductInfo extends Component {
                 { discountError }
               </InputGroup>
             </FormGroup>
+            <FormGroup>
+              <Label for="active">Activo</Label>
+              <InputGroup style={{ display: 'inline-block', width: 'auto' }}>
+                <Input id="active" name="active" type="checkbox" tabIndex="5" checked={ active } onChange={ this.handleActiveChange } invalid={ !(activeError === '') } />
+                { activeError }
+              </InputGroup>
+            </FormGroup>
           </Form>
           { generalError }
           {(!(product) && !('failed' in error)) &&
@@ -205,7 +227,7 @@ class ProductInfo extends Component {
         </ModalBody>
         <ModalFooter>
           <Button color="secondary" onClick={ this.handleCancel } outline tabIndex="-1">Cancelar</Button>
-          <Button color="primary" tabIndex="4" onClick={ this.handleSubmit } type="submit">Guardar</Button>
+          <Button color="primary" tabIndex="6" onClick={ this.handleSubmit } type="submit">Guardar</Button>
         </ModalFooter>
       </Modal>
     )

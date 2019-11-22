@@ -7,7 +7,8 @@ export const addProduct = (product) => ({
     description: product.description,
     price: product.price,
     quantity: product.quantity,
-    discount: product.discount
+    discount: product.discount,
+    active: product.active
   }
 });
 
@@ -28,7 +29,8 @@ export const updateProduct = (product) => ({
     description: product.description,
     price: product.price,
     quantity: product.quantity,
-    discount: product.discount
+    discount: product.discount,
+    active: product.active
   }
 });
 

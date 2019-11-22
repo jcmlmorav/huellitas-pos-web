@@ -37,7 +37,8 @@ const inventory = (state = initState, action) => {
               description: action.payload.data.description,
               price: action.payload.data.price,
               quantity: action.payload.data.quantity,
-              discount: action.payload.data.discount
+              discount: action.payload.data.discount,
+              active: action.payload.data.active
             },
             ...state.products
           ],
@@ -47,7 +48,8 @@ const inventory = (state = initState, action) => {
             description: action.payload.data.description,
             price: action.payload.data.price,
             quantity: action.payload.data.quantity,
-            discount: action.payload.data.discount
+            discount: action.payload.data.discount,
+            active: action.payload.data.active
           }
         }
       }
@@ -152,7 +154,8 @@ const inventory = (state = initState, action) => {
               description: action.payload.data.description,
               price: action.payload.data.price,
               quantity: action.payload.data.quantity,
-              discount: action.payload.data.discount
+              discount: action.payload.data.discount,
+              active: action.payload.data.active
             } : product
           ),
           updatedProduct: {
@@ -161,7 +164,8 @@ const inventory = (state = initState, action) => {
             description: action.payload.data.description,
             price: action.payload.data.price,
             quantity: action.payload.data.quantity,
-            discount: action.payload.data.discount
+            discount: action.payload.data.discount,
+            active: action.payload.data.active
           }
         }
       }
