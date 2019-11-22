@@ -15,8 +15,8 @@ function Coupon({ handleChange, discount }) {
               <InputNumber
                 min={0}
                 max={100}
+                value={discount}
                 onChange={handleChange}
-                defaultValue={discount}
                 formatter={value => `${value}%`}
                 parser={value => value.replace('%', '')}
               />

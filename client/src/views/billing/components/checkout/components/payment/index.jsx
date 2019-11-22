@@ -15,8 +15,8 @@ function Payment({ currentMoney, currentChange, handleChange }) {
             <TDInput>
               <InputNumber
                 min={0}
+                value={currentMoney}
                 onChange={handleChange}
-                defaultValue={currentMoney}
                 parser={value => value.replace(/\$\s?|(,*)/g, '')}
                 formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               />

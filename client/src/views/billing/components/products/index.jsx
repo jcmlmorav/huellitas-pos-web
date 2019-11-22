@@ -39,8 +39,8 @@ function Products({ products, onUpdateQuantity, onRemoveProduct }) {
       render: ({ quantity, id }) => (
         <QuantityWrapper>
           <InputNumber
-            min={0}
-            defaultValue={quantity}
+            min={1}
+            value={quantity}
             onChange={ (value) => updateQuantity(value, id) }
           />
         </QuantityWrapper>
