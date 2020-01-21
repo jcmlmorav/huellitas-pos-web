@@ -29,10 +29,6 @@ function Billing() {
 
   const bill = () => {
     dispatch(addBilling(billing, money, (money - billing.total)));
-
-    setTimeout(() => {
-      window.location = "/compra";
-    }, 2000);
   }
 
   const update = (update) => {

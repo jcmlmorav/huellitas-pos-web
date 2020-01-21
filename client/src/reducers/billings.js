@@ -89,6 +89,8 @@ const billings = (state = initState, action) => {
           total: 0,
           brute: 0,
           discount: 0,
+          coupon: 0,
+          coupon_discount: 0,
           products_quantity: 0,
           products: []
         },

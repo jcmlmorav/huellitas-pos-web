@@ -13,6 +13,8 @@ function Checkout({ billing, handleCancel, handleUpdate, handleBilling }) {
   useEffect(() => {
     if (billing.brute === 0) {
       setGlobalDiscount(0);
+      setCurrentMoney(0);
+      document.getElementById('searchProduct').focus();
     }
   }, [billing.brute]);
 
