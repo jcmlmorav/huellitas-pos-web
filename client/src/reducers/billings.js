@@ -215,7 +215,7 @@ const billings = (state = initState, action) => {
         removeProducts_quantity = removeProducts_quantity + product.quantity;
       });
 
-      let remove_coupon_discount = removeTotal.toFixed(0) * (removeBillingsState.billing.coupon / 100);
+      let remove_coupon_discount = removeTotal.toFixed(0) * (removeBillingsState.billing.coupon / 100) | 0;
       const remove50s = remove_coupon_discount / 50;
       const remove_units = remove50s % 1 > 0 ? Math.floor(remove50s) + 1 : remove50s;
       remove_coupon_discount = remove_units * 50;
