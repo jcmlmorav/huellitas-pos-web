@@ -2,11 +2,11 @@ import React from 'react';
 import { Table, Empty, Button } from 'antd';
 import CurrencyFormat from '../../../../utils/CurrencyFormat';
 import { InputNumber } from 'antd';
+import { IconButtonContainer } from '../../../../styles';
 import {
   PriceStyled,
   DiscountStyled,
   TotalStyled,
-  DeleteContainer,
   QuantityWrapper
 } from './styles';
 
@@ -81,14 +81,14 @@ function Products({ products, onUpdateQuantity, onRemoveProduct }) {
       dataIndex: 'action',
       key: 'action',
       render: product => (
-        <DeleteContainer>
+        <IconButtonContainer>
           <Button
             type="primary"
             shape="circle"
             icon="delete"
             onClick={() => removeProduct(product)}
           />
-        </DeleteContainer>
+        </IconButtonContainer>
       )
     }
   ];

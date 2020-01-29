@@ -1,63 +1,32 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Alert } from 'reactstrap';
-import CurrencyFormat from '../../utils/CurrencyFormat';
+import React from 'react';
+import Logo from '../../../../assets/colmillitos-pos.jpg';
+import CurrencyFormat from '../../../../utils/CurrencyFormat';
 import './styles.scss';
-import { getBillingById } from '../../actions/billing';
-import Logo from '../../assets/colmillitos-pos.jpg';
 
-class BillingDetail extends Component {
-  constructor(props) {
-    super(props);
+function BillingDetail({ billing }) {
+  let discount = 0;
+  let subtotal = 0;
 
-    this.state = { data: {} }
-
-    const { dispatch } = props;
-
-    this.boundActionCreators = bindActionCreators(getBillingById, dispatch);
-  }
-
-  componentDidMount() {
-    const { dispatch, match } = this.props;
-    dispatch(getBillingById(match.params.id));
-  }
-
-  print() {
+  const print = () => {
     window.print();
   }
 
-  render() {
-    const { billingDetailed } = this.props;
-    let discount = 0,
-        subtotal = 0;
-
-    if( Object.keys(billingDetailed).length === 0 ) {
-      return (
-        <div>
-          <h1 className="text-center">Compra</h1>
-          <Alert color="primary">
-            No hay última compra registrada
-          </Alert>
-        </div>
-      );
-    }
-
-    return (
-      <div>
-        <button className="printBtn hide" onClick={this.print}>Imprimir</button>
-        <div className="printing">
+  return (
+    <>
+      <button className="printBtn hide" onClick={print}>Imprimir</button>
+      <div className="printing">
         <img className="logo" src={Logo} alt="Logo Colmillitos" />
         <h5>Tienda para mascotas</h5>
+        <h5>Peluquería & Spa</h5>
         <br />
         <h6>Comprobante de compra</h6>
         <h6>Régimen simplificado</h6>
         <h6>NIT. 1038770891-8</h6>
         <h6>Calle 79A # 52 A 87</h6>
         <h6>Teléfono: 3205644443</h6>
-        <h6>Itaguí</h6>
+        <h6>Itaguí, Antioquia</h6>
         <br />
-        <h6>Fecha: { billingDetailed.created_at }</h6>
+        <h6>Fecha: { billing.created_at }</h6>
         <hr />
         <table>
           <thead>
@@ -68,7 +37,7 @@ class BillingDetail extends Component {
             </tr>
           </thead>
           <tbody>
-            { billingDetailed.products.map(product => {
+            { billing.products.map(product => {
               discount = discount + (((product.pivot.discount / 100) * product.pivot.price) * product.pivot.quantity);
               subtotal = subtotal + (product.pivot.price * product.pivot.quantity);
 
@@ -92,30 +61,30 @@ class BillingDetail extends Component {
           </tbody>
         </table>
         <hr/>
-        { (discount > 0 || billingDetailed.coupon > 0) && (
+        { (discount > 0 || billing.coupon > 0) && (
           <>
-            {billingDetailed.coupon > 0 && (
+            {billing.coupon > 0 && (
               <>
-                <h6><strong>Cupón aplicado: {billingDetailed.coupon.toFixed(0)}%</strong></h6>
+                <h6><strong>Cupón aplicado: {billing.coupon.toFixed(0)}%</strong></h6>
                 <br />
               </>
             )}
             <h6>Subtotal: { CurrencyFormat(subtotal.toFixed(2)) }</h6>
-            <h6>Ahorro: { CurrencyFormat(discount + billingDetailed.coupon_discount) }</h6>
+            <h6>Ahorro: { CurrencyFormat(discount + billing.coupon_discount) }</h6>
             <br />
           </>
-        )}
-        <h4>TOTAL: { CurrencyFormat(billingDetailed.total) }</h4>
+        ) }
+        <h4>TOTAL: { CurrencyFormat(billing.total) }</h4>
         <hr/>
         <table>
           <tbody>
             <tr>
               <td>Efectivo:</td>
-              <td>{ CurrencyFormat(billingDetailed.money) }</td>
+              <td>{ CurrencyFormat(billing.money) }</td>
             </tr>
             <tr>
               <td>Cambio:</td>
-              <td>{ CurrencyFormat(billingDetailed.change) }</td>
+              <td>{ CurrencyFormat(billing.change) }</td>
             </tr>
           </tbody>
         </table>
@@ -123,13 +92,8 @@ class BillingDetail extends Component {
         <h6>Gracias por su compra</h6>
         <h6><strong>Visítanos en WWW.COLMILLITOS.PET</strong></h6>
       </div>
-      </div>
-    );
-  }
-}
+    </>
+  );
+};
 
-const mapStateToProps = state => ({
-  billingDetailed: state.billings.billingDetailed
-});
-
-export default connect(mapStateToProps)(BillingDetail);
+export default BillingDetail;

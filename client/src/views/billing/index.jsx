@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { TitleStyled } from '../../styles';
-import { WrapperStyled, ContentStyled, SidebarStyled } from './styles';
+import { TitleStyled, WrapperStyled, ContentStyled, SidebarStyled } from '../../styles';
 import { SearchProduct } from '../../components';
 import Checkout from './components/checkout';
 import Products from './components/products';

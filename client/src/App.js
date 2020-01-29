@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, NavLink, Route } from "react-router-dom";
+import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom';
 import Billing from './views/billing';
-import { BillingDetail, Box, Customers, Inventory, Finances, Sale, Billings } from './views';
+import Billings from './views/billings';
+import { Box, Customers, Inventory, Finances } from './views';
 import 'antd/dist/antd.css';
 import './App.scss';
 import {
@@ -23,12 +24,6 @@ class App extends Component {
                 <NavLink className="menu__item" tabIndex="-1" to="/">Nueva venta!</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className="menu__item" tabIndex="-1" to="/compra">Última compra</NavLink>
-              </NavItem>
-              {/* <NavItem>
-                <NavLink className="menu__item" tabIndex="-1" to="/clientes">Clientes</NavLink>
-              </NavItem> */}
-              <NavItem>
                 <NavLink className="menu__item" tabIndex="-1" to="/caja">Caja</NavLink>
               </NavItem>
               <NavItem>
@@ -47,10 +42,8 @@ class App extends Component {
           <Route path="/clientes/" component={Customers} />
           <Route path="/inventario/" component={Inventory} />
           <Route path="/finanzas/" component={Finances} />
-          <Route path="/compra/" component={Sale} />
           <Route path="/caja/" component={Box} />
-          <Route path="/facturas" component={Billings} />
-          <Route path="/factura/:id" component={BillingDetail} />
+          <Route path="/facturas/:id?" component={Billings} />
         </div>
       </Router>
     );

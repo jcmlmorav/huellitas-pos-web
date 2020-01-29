@@ -2,7 +2,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import TYPES from '../constants/types';
 import BillingsApi from '../api/billings';
 
-function* getBillings() {
+function* fetchBillings() {
   try {
     const billings = yield call(BillingsApi.getAll);
 
@@ -13,7 +13,7 @@ function* getBillings() {
 }
 
 function* bilingsSaga() {
-  yield takeLatest(TYPES.GET_BILLINGS, getBillings);
+  yield takeLatest(TYPES.GET_BILLINGS, fetchBillings);
 }
 
 export default bilingsSaga;
