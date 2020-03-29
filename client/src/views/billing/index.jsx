@@ -9,25 +9,34 @@ import {
   cleanBilling,
   updateCoupon,
   addBilling,
+  updateBilling,
   updateProductQuantity,
-  removeProductFromBilling
+  removeProductFromBilling,
+  fetchEditBilling
 } from '../../actions/billing';
 
-function Billing() {
+function Billing({ match }) {
   const dispatch = useDispatch();
   const billing = useSelector(state => state.billings.billing);
   const [money, setMoney] = useState(0);
 
   useEffect(() => {
     dispatch(getProducts());
-  });
+    if (match.params.id > 0) {
+      dispatch(fetchEditBilling(match.params.id));
+    }
+  }, [dispatch, match.params.id]);
 
   const cancel = () => {
     dispatch(cleanBilling());
   }
 
   const bill = () => {
-    dispatch(addBilling(billing, money, (money - billing.total)));
+    if (!match.params.id) {
+      dispatch(addBilling(billing, money, (money - billing.total)));
+    } else {
+      dispatch(updateBilling(billing, money, (money - billing.total)));
+    }
   }
 
   const update = (update) => {
@@ -66,6 +75,7 @@ function Billing() {
               handleUpdate={update}
               handleCancel={cancel}
               handleBilling={bill}
+              billingMode={!match.params.id ? 'new' : 'update'}
             />
           </SidebarStyled>
       </WrapperStyled>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Button, Empty, Icon } from 'antd';
+import { List, Empty, Icon } from 'antd';
 import CurrencyFormat from '../../../../utils/CurrencyFormat';
 import { IconButtonContainer } from '../../../../styles';
 import { NavLink } from 'react-router-dom';
@@ -37,7 +37,7 @@ function BillingsList({ billings }) {
             <TotalColumnStyled>{CurrencyFormat(item.total)}</TotalColumnStyled>
             <ActionsColumnStyled>
               <IconButtonContainer>
-                {/* TODO: Button for Edit */}
+              <NavLink to={`/factura/${item.id}`}><Icon type="edit" /></NavLink>
               </IconButtonContainer>
               <IconButtonContainer>
                 <NavLink to={`/facturas/${item.id}`}><Icon type="eye" /></NavLink>

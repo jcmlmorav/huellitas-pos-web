@@ -58,3 +58,18 @@ export const updateCoupon = (coupon) => ({
   type: TYPES.UPDATE_BILLING_COUPON,
   payload: { coupon }
 });
+
+export const fetchEditBilling = (id) => ({
+  type: TYPES.FETCH_EDIT_BILLING,
+  payload: {id }
+});
+
+export const updateBilling = (billing, money, change) => {
+  billing.money = money;
+  billing.change = change;
+
+  return {
+    type: TYPES.UPDATE_BILLING,
+    payload: billing
+  };
+};

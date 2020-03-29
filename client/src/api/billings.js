@@ -50,6 +50,23 @@ class BillingsApi {
       return error;
     });
   }
+
+  static update(billing) {
+    return fetch(
+      `${ENDPOINTS.billings}/${billing.id}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(billing),
+        headers:{
+          'Content-Type': 'application/json'
+        }
+      }
+    ).then(response => {
+      return response.json();
+    }).catch(error => {
+      return error;
+    });
+  }
 }
 
 export default BillingsApi;  

@@ -2,7 +2,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import TYPES from '../constants/types';
 import BillingsApi from '../api/billings';
 
-function* getBillingById(action) {
+export function* getBillingById(action) {
   try {
     const billing = yield call(BillingsApi.get, action.payload);
 

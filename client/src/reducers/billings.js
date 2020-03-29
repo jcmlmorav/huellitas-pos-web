@@ -74,11 +74,13 @@ const billings = (state = initState, action) => {
         }
       }
     case TYPES.ADD_BILLING:
+    case TYPES.UPDATE_BILLING:
       return {
         ...state,
         createdBilling: {}
       }
     case TYPES.ADD_BILLING_SUCCEEDED:
+    case TYPES.UPDATE_BILLING_SUCCEEDED:
       return {
         ...state,
         createdBilling: action.payload.data,
@@ -96,6 +98,7 @@ const billings = (state = initState, action) => {
         error: {}
       }
     case TYPES.ADD_BILLING_FAILED:
+    case TYPES.UPDATE_BILLING_FAILED:
       return {
         ...state,
         createdBilling: {},
@@ -252,6 +255,7 @@ const billings = (state = initState, action) => {
         }
       };
     case TYPES.CLEAN_BILLING:
+    case TYPES.FETCH_EDIT_BILLING:
       return {
         ...state,
         billing: {
@@ -314,6 +318,70 @@ const billings = (state = initState, action) => {
       }
 
       return billingState;
+    case TYPES.FETCH_EDIT_BILLING_SUCCEEDED:
+      const prices = action.payload.products.map(product => product.price);
+      const subtotal = prices.reduce((acc, price) => acc + price);
+      const products = action.payload.products.map((product) => {
+        return {
+          id: product.id,
+          barcode: product.barcode,
+          description: product.description,
+          quantity: product.pivot.quantity,
+          price: product.pivot.price,
+          discount: product.pivot.discount,
+          active: product.active,
+          created_at: product.created_at,
+          updated_at: product.created_at
+        }
+      });
+
+      return {
+        ...state,
+        billing: {
+          id: action.payload.id,
+          client_document: action.payload.client_document,
+          subtotal: subtotal,
+          iva: 0,
+          brute: subtotal,
+          discount: 0,
+          coupon: action.payload.coupon,
+          coupon_discount: action.payload.coupon_discount,
+          total: action.payload.total,
+          products_quantity: action.payload.products_quantity,
+          products: products
+        }
+      }
+
+    case TYPES.ADD_BILLING:
+      return {
+        ...state,
+        createdBilling: {}
+      }
+    case TYPES.ADD_BILLING_SUCCEEDED:
+      return {
+        ...state,
+        createdBilling: action.payload.data,
+        billing: {
+          subtotal: 0,
+          iva: 0,
+          total: 0,
+          brute: 0,
+          discount: 0,
+          coupon: 0,
+          coupon_discount: 0,
+          products_quantity: 0,
+          products: []
+        },
+        error: {}
+      }
+    case TYPES.ADD_BILLING_FAILED:
+      return {
+        ...state,
+        createdBilling: {},
+        error: {
+          failed: 'Ocurrió un problema al crear la factura. Intente nuevamente.'
+        }
+      }
     default:
       return state;
   }

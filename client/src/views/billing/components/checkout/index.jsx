@@ -6,7 +6,7 @@ import Coupon from './components/coupon';
 import Payment from './components/payment';
 import { Button } from 'antd';
 
-function Checkout({ billing, handleCancel, handleUpdate, handleBilling }) {
+function Checkout({ billing, handleCancel, handleUpdate, handleBilling, billingMode }) {
   const [globalDiscount, setGlobalDiscount] = useState(0);
   const [currentMoney, setCurrentMoney] = useState(0);
 
@@ -33,6 +33,8 @@ function Checkout({ billing, handleCancel, handleUpdate, handleBilling }) {
     handleCancel();
   }
 
+  const submitButtonText = billingMode === 'new' ? 'Finalizar compra' : 'Actualizar compra';
+
   return (
     <Wrapper>
       <Balance billing={billing} />
@@ -53,14 +55,16 @@ function Checkout({ billing, handleCancel, handleUpdate, handleBilling }) {
           disabled={!(parseInt(currentMoney) >= parseInt(billing.total) && billing.products.length > 0)}
           onClick={handleBilling}
         >
-          Finalizar compra
+          {submitButtonText}
         </Button>
-        <Button
-          disabled={billing.products.length === 0 && billing.coupon === 0}
-          onClick={cancelBilling}
-        >
-          Cancelar compra
-        </Button>
+        {billingMode === 'new' && (
+          <Button
+            disabled={billing.products.length === 0 && billing.coupon === 0}
+            onClick={cancelBilling}
+          >
+            Cancelar compra
+          </Button>
+        )}
       </ButtonsWrapper>
     </Wrapper>
   );

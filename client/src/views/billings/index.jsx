@@ -12,7 +12,6 @@ function Billings({ match }) {
 
   useEffect(() => {
     dispatch(getBillings());
-
     if (match.params.id === undefined) {
       dispatch(getLastBilling());
     } else {

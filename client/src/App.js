@@ -39,6 +39,7 @@ class App extends Component {
           </Navbar>
 
           <Route path="/" exact component={Billing} />
+          <Route path="/factura/:id?" component={Billing} />
           <Route path="/clientes/" component={Customers} />
           <Route path="/inventario/" component={Inventory} />
           <Route path="/finanzas/" component={Finances} />
